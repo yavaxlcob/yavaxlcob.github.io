@@ -99,6 +99,7 @@
 
   const colorPreview = document.querySelector('#color-preview');
   const colorName = document.querySelector('[data-color-name]');
+  const colorStage = document.querySelector('.color-stage');
   document.querySelectorAll('[data-image]').forEach((button) => button.addEventListener('click', () => {
     if (!colorPreview || !button.dataset.image) return;
     colorPreview.classList.add('is-changing');
@@ -108,6 +109,7 @@
       colorPreview.classList.remove('is-changing');
     }, reducedMotion ? 0 : 130);
     if (colorName) colorName.textContent = button.dataset.color || '';
+    if (colorStage) colorStage.dataset.tone = button.dataset.tone || 'blue';
     document.querySelectorAll('.color-dot').forEach((dot) => {
       const active = dot === button;
       dot.classList.toggle('is-active', active);
@@ -182,6 +184,55 @@
     resize();
     window.addEventListener('resize', resize, { passive: true });
     requestAnimationFrame(drawWater);
+  }
+
+  const rippleCanvas = document.querySelector('[data-ripple-canvas]');
+  if (rippleCanvas && hero && !reducedMotion) {
+    const rippleContext = rippleCanvas.getContext('2d', { alpha: true });
+    const ripples = [];
+    let rippleWidth = 0;
+    let rippleHeight = 0;
+    let lastRipple = 0;
+    const resizeRippleCanvas = () => {
+      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
+      rippleWidth = window.innerWidth;
+      rippleHeight = window.innerHeight;
+      rippleCanvas.width = Math.floor(rippleWidth * ratio);
+      rippleCanvas.height = Math.floor(rippleHeight * ratio);
+      rippleCanvas.style.width = rippleWidth + 'px';
+      rippleCanvas.style.height = rippleHeight + 'px';
+      rippleContext.setTransform(ratio, 0, 0, ratio, 0, 0);
+    };
+    hero.addEventListener('pointermove', (event) => {
+      const now = performance.now();
+      if (now - lastRipple < 180) return;
+      lastRipple = now;
+      ripples.push({ x: event.clientX, y: event.clientY, radius: 4, alpha: .7 });
+      if (ripples.length > 9) ripples.shift();
+    }, { passive: true });
+    const drawRipples = () => {
+      rippleContext.clearRect(0, 0, rippleWidth, rippleHeight);
+      for (let index = ripples.length - 1; index >= 0; index -= 1) {
+        const ripple = ripples[index];
+        ripple.radius += 1.35;
+        ripple.alpha *= .967;
+        rippleContext.beginPath();
+        rippleContext.ellipse(ripple.x, ripple.y, ripple.radius * 2.25, ripple.radius * .46, -.08, 0, Math.PI * 2);
+        rippleContext.strokeStyle = 'rgba(156, 230, 246, ' + ripple.alpha + ')';
+        rippleContext.lineWidth = 1.2;
+        rippleContext.stroke();
+        rippleContext.beginPath();
+        rippleContext.ellipse(ripple.x, ripple.y, ripple.radius * 1.34, ripple.radius * .27, -.08, 0, Math.PI * 2);
+        rippleContext.strokeStyle = 'rgba(210, 246, 255, ' + (ripple.alpha * .56) + ')';
+        rippleContext.lineWidth = .8;
+        rippleContext.stroke();
+        if (ripple.alpha < .03) ripples.splice(index, 1);
+      }
+      requestAnimationFrame(drawRipples);
+    };
+    resizeRippleCanvas();
+    window.addEventListener('resize', resizeRippleCanvas, { passive: true });
+    requestAnimationFrame(drawRipples);
   }
 
   const lightbox = document.querySelector('[data-lightbox]');
