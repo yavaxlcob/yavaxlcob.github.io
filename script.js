@@ -1,265 +1,255 @@
+'use strict';
 (() => {
+  const $ = (s,root=document) => root.querySelector(s);
+  const $$ = (s,root=document) => [...root.querySelectorAll(s)];
   const root = document.documentElement;
-  root.classList.add('js');
+  const media = matchMedia('(prefers-reduced-motion: reduce)');
+  let userPaused = false;
+  let reduced = media.matches;
+  let scrollDirty = true;
+  let animationId = 0;
+  let lastFrame = 0;
+  const motionButton = $('.motion-toggle');
 
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const header = document.querySelector('[data-header]');
-  const menuToggle = document.querySelector('[data-menu-toggle]');
-  const nav = document.querySelector('[data-nav]');
-  const progress = document.querySelector('[data-scroll-progress]');
-  const hero = document.querySelector('.hero');
-  const heroImage = document.querySelector('.hero-photo');
-
-  const updateScrollState = () => {
-    const scrollTop = window.scrollY || 0;
-    header?.classList.toggle('is-scrolled', scrollTop > 24);
-    if (progress) {
-      const max = document.documentElement.scrollHeight - window.innerHeight;
-      progress.style.transform = 'scaleX(' + (max > 0 ? scrollTop / max : 0) + ')';
-    }
-    if (!reducedMotion && heroImage && hero) {
-      const bounds = hero.getBoundingClientRect();
-      const progressInHero = Math.min(1, Math.max(0, -bounds.top / Math.max(1, bounds.height)));
-      heroImage.style.setProperty('--hero-shift', Math.round(progressInHero * 65) + 'px');
-      heroImage.style.setProperty('--hero-scale', String(1.07 + progressInHero * .06));
-    }
-  };
-  updateScrollState();
-  window.addEventListener('scroll', updateScrollState, { passive: true });
-  window.addEventListener('resize', updateScrollState, { passive: true });
-
-  menuToggle?.addEventListener('click', () => {
-    const open = menuToggle.getAttribute('aria-expanded') === 'true';
-    menuToggle.setAttribute('aria-expanded', String(!open));
-    nav?.classList.toggle('is-open', !open);
-  });
-  nav?.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-    menuToggle?.setAttribute('aria-expanded', 'false');
+  // Keep menus operable with touch and the keyboard; never hide content without JS.
+  const menu = $('.menu-toggle');
+  const nav = $('.main-nav');
+  function closeMenu(returnFocus=false) {
     nav.classList.remove('is-open');
-  }));
-
-  const revealItems = document.querySelectorAll('[data-reveal]');
-  if ('IntersectionObserver' in window) {
-    const revealObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: .12, rootMargin: '0px 0px -40px' });
-    revealItems.forEach((item) => revealObserver.observe(item));
-  } else {
-    revealItems.forEach((item) => item.classList.add('is-visible'));
+    menu.setAttribute('aria-expanded','false');
+    menu.setAttribute('aria-label','Открыть меню');
+    if(returnFocus) menu.focus();
   }
+  menu.addEventListener('click', () => {
+    const open=menu.getAttribute('aria-expanded')!=='true';
+    menu.setAttribute('aria-expanded',String(open));
+    menu.setAttribute('aria-label',open?'Закрыть меню':'Открыть меню');
+    nav.classList.toggle('is-open',open);
+  });
+  $$('a',nav).forEach(a=>a.addEventListener('click',()=>closeMenu()));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('is-open')) closeMenu(true);});
+  document.addEventListener('click',e=>{if(!e.target.closest('.site-header'))closeMenu();});
 
-  const voyageLabels = ['Открытая вода', 'Кабина / защита', 'Оснащение / основа', 'Маршрут / люди'];
-  const voyageSteps = [...document.querySelectorAll('[data-voyage-step]')];
-  const voyageFrames = [...document.querySelectorAll('[data-scene-frame]')];
-  const voyageLabel = document.querySelector('[data-voyage-label]');
-  const activateVoyage = (name) => {
-    voyageSteps.forEach((step) => step.classList.toggle('is-active', step.dataset.voyageStep === name));
-    voyageFrames.forEach((frame) => frame.classList.toggle('is-active', frame.dataset.sceneFrame === name));
-    if (voyageLabel) voyageLabel.textContent = voyageLabels[Number(name)] || voyageLabels[0];
-  };
-  if ('IntersectionObserver' in window && voyageSteps.length) {
-    const voyageObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) activateVoyage(entry.target.dataset.voyageStep);
-      });
-    }, { threshold: .55 });
-    voyageSteps.forEach((step) => voyageObserver.observe(step));
+  const tabs=$$('[data-tab]');
+  function selectTab(tab,focus=false) {
+    tabs.forEach(t=>{
+      const selected=t===tab;
+      t.setAttribute('aria-selected',String(selected));
+      t.tabIndex=selected?0:-1;
+      const panel=document.getElementById(t.getAttribute('aria-controls'));
+      panel.hidden=!selected;
+      panel.classList.toggle('is-active',selected);
+    });
+    if(focus)tab.focus();
   }
-
-  const tabs = [...document.querySelectorAll('[data-tab]')];
-  const panels = [...document.querySelectorAll('[data-panel]')];
-  const activateTab = (tab) => {
-    const name = tab.dataset.tab;
-    tabs.forEach((item) => {
-      const active = item === tab;
-      item.classList.toggle('is-active', active);
-      item.setAttribute('aria-selected', String(active));
-      item.tabIndex = active ? 0 : -1;
-    });
-    panels.forEach((panel) => {
-      const active = panel.dataset.panel === name;
-      panel.classList.toggle('is-active', active);
-      panel.hidden = !active;
-    });
-  };
-  tabs.forEach((tab, index) => {
-    tab.addEventListener('click', () => activateTab(tab));
-    tab.addEventListener('keydown', (event) => {
-      if (!['ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowUp'].includes(event.key)) return;
-      event.preventDefault();
-      const nextIndex = (index + (event.key === 'ArrowRight' || event.key === 'ArrowDown' ? 1 : -1) + tabs.length) % tabs.length;
-      tabs[nextIndex].focus();
-      activateTab(tabs[nextIndex]);
+  tabs.forEach((tab,index)=>{
+    tab.addEventListener('click',()=>selectTab(tab));
+    tab.addEventListener('keydown',e=>{
+      let next;
+      if(e.key==='ArrowRight')next=(index+1)%tabs.length;
+      if(e.key==='ArrowLeft')next=(index+tabs.length-1)%tabs.length;
+      if(e.key==='Home')next=0;
+      if(e.key==='End')next=tabs.length-1;
+      if(next!==undefined){e.preventDefault();selectTab(tabs[next],true);}
     });
   });
 
-  const colorPreview = document.querySelector('#color-preview');
-  const colorName = document.querySelector('[data-color-name]');
-  const colorStage = document.querySelector('.color-stage');
-  document.querySelectorAll('[data-image]').forEach((button) => button.addEventListener('click', () => {
-    if (!colorPreview || !button.dataset.image) return;
-    colorPreview.classList.add('is-changing');
-    window.setTimeout(() => {
-      colorPreview.src = button.dataset.image;
-      colorPreview.alt = 'YAVA XL COB в цвете ' + (button.dataset.color || '');
-      colorPreview.classList.remove('is-changing');
-    }, reducedMotion ? 0 : 130);
-    if (colorName) colorName.textContent = button.dataset.color || '';
-    if (colorStage) colorStage.dataset.tone = button.dataset.tone || 'blue';
-    document.querySelectorAll('.color-dot').forEach((dot) => {
-      const active = dot === button;
-      dot.classList.toggle('is-active', active);
-      dot.setAttribute('aria-pressed', String(active));
-    });
+  // Only these official transparent hull layers change. The photographic base is immutable.
+  const choices=$$('[data-color]');
+  const hulls=$$('[data-hull]');
+  let colorRequest = 0;
+  choices.forEach(button=>button.addEventListener('click',async()=>{
+    const request = ++colorRequest;
+    const selected=button.dataset.color;
+    const layer=hulls.find(img=>img.dataset.hull===selected);
+    try{await layer.decode();}catch{return;}
+    if(request!==colorRequest)return;
+    choices.forEach(c=>c.setAttribute('aria-pressed',String(c===button)));
+    hulls.forEach(img=>img.classList.toggle('is-active',img===layer));
+    $('[data-color-name]').textContent=button.dataset.name;
+    $('.color-boat').setAttribute('aria-label','YAVA XL COB, цвет нижнего борта: '+button.dataset.name);
   }));
 
-  const countItems = document.querySelectorAll('[data-count]');
-  const formatNumber = (value, decimals) => Number(value).toLocaleString('ru-RU', { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
-  const runCount = (element) => {
-    const target = Number(element.dataset.count);
-    const decimals = Number(element.dataset.decimals || 0);
-    if (reducedMotion || !Number.isFinite(target)) {
-      element.textContent = formatNumber(target, decimals);
-      return;
+  // Native dialog supplies focus containment and Escape. Return focus to the clicked photo.
+  const gallery=$$('[data-gallery]');
+  const dialog=$('.lightbox');
+  const largePhoto=$('img',dialog);
+  let photoIndex=0, photoOpener=null;
+  function showPhoto(index) {
+    photoIndex=(index+gallery.length)%gallery.length;
+    const item=gallery[photoIndex];
+    const wrap=$('.lightbox-image-wrap');
+    wrap.classList.toggle('is-light',item.classList.contains('light'));
+    wrap.classList.toggle('is-interior',item.classList.contains('interior'));
+    largePhoto.src=item.dataset.gallery;
+    largePhoto.alt=$('img',item).alt;
+    $('[data-photo-caption]').textContent=(photoIndex+1)+' / '+gallery.length+' — '+item.dataset.caption;
+  }
+  gallery.forEach((item,index)=>item.addEventListener('click',()=>{
+    photoOpener=item;showPhoto(index);dialog.showModal();document.body.classList.add('modal-open');
+  }));
+  $('.lightbox-close').addEventListener('click',()=>dialog.close());
+  $('[data-next]').addEventListener('click',()=>showPhoto(photoIndex+1));
+  $('[data-prev]').addEventListener('click',()=>showPhoto(photoIndex-1));
+  dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
+  dialog.addEventListener('keydown',e=>{
+    if(e.key==='ArrowRight'){e.preventDefault();showPhoto(photoIndex+1);}
+    if(e.key==='ArrowLeft'){e.preventDefault();showPhoto(photoIndex-1);}
+  });
+  dialog.addEventListener('close',()=>{document.body.classList.remove('modal-open');photoOpener?.focus({preventScroll:true});});
+  let swipeX=null;
+  dialog.addEventListener('touchstart',e=>{swipeX=e.changedTouches[0].clientX;},{passive:true});
+  dialog.addEventListener('touchend',e=>{
+    if(swipeX!==null){const dx=e.changedTouches[0].clientX-swipeX;if(Math.abs(dx)>65)showPhoto(photoIndex+(dx<0?1:-1));}
+    swipeX=null;
+  },{passive:true});
+  $('[data-year]').textContent=new Date().getFullYear();
+
+  const steps=$$('[data-step]');
+  const frames=$$('[data-scene]');
+  const tracks=$$('.scene-track i');
+  let activeStep=0;
+  function setStory(index) {
+    if(index===activeStep)return;
+    activeStep=index;
+    steps.forEach((s,i)=>s.classList.toggle('is-active',i===index));
+    frames.forEach((s,i)=>{s.classList.toggle('is-active',i===index);s.setAttribute('aria-hidden',String(i!==index));});
+    tracks.forEach((s,i)=>s.classList.toggle('is-active',i===index));
+    $('[data-scene-number]').textContent='0'+(index+1)+' / 04';
+    $('[data-scene-label]').textContent=steps[index].dataset.label;
+  }
+  frames.forEach((s,i)=>s.setAttribute('aria-hidden',String(i!==0)));
+  function updateScroll() {
+    const height=document.documentElement.scrollHeight-innerHeight;
+    $('.scroll-progress').style.transform='scaleX('+(height>0?scrollY/height:0)+')';
+    const target=innerWidth<=600?Math.max(350,innerHeight*.64):innerHeight*.5;
+    let nearest=0,distance=Infinity;
+    steps.forEach((step,i)=>{const r=step.getBoundingClientRect();const d=Math.abs(r.top+Math.min(r.height*.45,180)-target);if(d<distance){distance=d;nearest=i;}});
+    setStory(nearest);
+    if(!reduced&&innerWidth>600){
+      const hero=$('.hero');
+      if(scrollY<hero.offsetHeight) $('.hero-photo').style.transform='translateY('+Math.min(scrollY*.13,100)+'px)';
     }
-    const started = performance.now();
-    const duration = 850;
-    const tick = (now) => {
-      const progressValue = Math.min(1, (now - started) / duration);
-      const eased = 1 - Math.pow(1 - progressValue, 3);
-      element.textContent = formatNumber(target * eased, decimals);
-      if (progressValue < 1) requestAnimationFrame(tick);
-    };
-    requestAnimationFrame(tick);
-  };
-  if ('IntersectionObserver' in window && countItems.length) {
-    const countObserver = new IntersectionObserver((entries, observer) => {
-      entries.forEach((entry) => {
-        if (!entry.isIntersecting) return;
-        runCount(entry.target);
-        observer.unobserve(entry.target);
-      });
-    }, { threshold: .6 });
-    countItems.forEach((item) => countObserver.observe(item));
-  } else {
-    countItems.forEach(runCount);
+    scrollDirty=false;
   }
 
-  const canvas = document.querySelector('[data-water-canvas]');
-  if (canvas && !reducedMotion) {
-    const ctx = canvas.getContext('2d', { alpha: true });
-    let width = 0;
-    let height = 0;
-    let frame = 0;
-    const resize = () => {
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-      width = window.innerWidth;
-      height = window.innerHeight;
-      canvas.width = Math.floor(width * ratio);
-      canvas.height = Math.floor(height * ratio);
-      canvas.style.width = width + 'px';
-      canvas.style.height = height + 'px';
-      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
-    };
-    const drawWater = () => {
-      frame += 0.004;
-      ctx.clearRect(0, 0, width, height);
-      const base = height * .68;
-      for (let line = 0; line < 9; line += 1) {
-        ctx.beginPath();
-        for (let x = -40; x <= width + 40; x += 28) {
-          const y = base + line * 28 + Math.sin(x * .008 + frame * (1.4 + line * .06)) * (5 + line * .8) + Math.sin(x * .018 - frame) * 3;
-          if (x === -40) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = 'rgba(154, 224, 216, ' + (0.022 + line * .003) + ')';
-        ctx.lineWidth = 1;
-        ctx.stroke();
-      }
-      requestAnimationFrame(drawWater);
-    };
-    resize();
-    window.addEventListener('resize', resize, { passive: true });
-    requestAnimationFrame(drawWater);
-  }
-
-  const rippleCanvas = document.querySelector('[data-ripple-canvas]');
-  if (rippleCanvas && hero && !reducedMotion) {
-    const rippleContext = rippleCanvas.getContext('2d', { alpha: true });
-    const ripples = [];
-    let rippleWidth = 0;
-    let rippleHeight = 0;
-    let lastRipple = 0;
-    const resizeRippleCanvas = () => {
-      const ratio = Math.min(window.devicePixelRatio || 1, 1.5);
-      rippleWidth = window.innerWidth;
-      rippleHeight = window.innerHeight;
-      rippleCanvas.width = Math.floor(rippleWidth * ratio);
-      rippleCanvas.height = Math.floor(rippleHeight * ratio);
-      rippleCanvas.style.width = rippleWidth + 'px';
-      rippleCanvas.style.height = rippleHeight + 'px';
-      rippleContext.setTransform(ratio, 0, 0, ratio, 0, 0);
-    };
-    hero.addEventListener('pointermove', (event) => {
-      const now = performance.now();
-      if (now - lastRipple < 180) return;
-      lastRipple = now;
-      ripples.push({ x: event.clientX, y: event.clientY, radius: 4, alpha: .7 });
-      if (ripples.length > 9) ripples.shift();
-    }, { passive: true });
-    const drawRipples = () => {
-      rippleContext.clearRect(0, 0, rippleWidth, rippleHeight);
-      for (let index = ripples.length - 1; index >= 0; index -= 1) {
-        const ripple = ripples[index];
-        ripple.radius += 1.35;
-        ripple.alpha *= .967;
-        rippleContext.beginPath();
-        rippleContext.ellipse(ripple.x, ripple.y, ripple.radius * 2.25, ripple.radius * .46, -.08, 0, Math.PI * 2);
-        rippleContext.strokeStyle = 'rgba(156, 230, 246, ' + ripple.alpha + ')';
-        rippleContext.lineWidth = 1.2;
-        rippleContext.stroke();
-        rippleContext.beginPath();
-        rippleContext.ellipse(ripple.x, ripple.y, ripple.radius * 1.34, ripple.radius * .27, -.08, 0, Math.PI * 2);
-        rippleContext.strokeStyle = 'rgba(210, 246, 255, ' + (ripple.alpha * .56) + ')';
-        rippleContext.lineWidth = .8;
-        rippleContext.stroke();
-        if (ripple.alpha < .03) ripples.splice(index, 1);
-      }
-      requestAnimationFrame(drawRipples);
-    };
-    resizeRippleCanvas();
-    window.addEventListener('resize', resizeRippleCanvas, { passive: true });
-    requestAnimationFrame(drawRipples);
-  }
-
-  const lightbox = document.querySelector('[data-lightbox]');
-  const lightboxImage = document.querySelector('[data-lightbox-image]');
-  let lastFocused = null;
-  const closeLightbox = () => {
-    if (!lightbox) return;
-    lightbox.hidden = true;
-    document.body.classList.remove('no-scroll');
-    if (lightboxImage) lightboxImage.src = '';
-    lastFocused?.focus();
-  };
-  document.querySelectorAll('[data-gallery]').forEach((item) => item.addEventListener('click', () => {
-    if (!lightbox || !lightboxImage) return;
-    lastFocused = item;
-    lightboxImage.alt = item.querySelector('img')?.alt || 'Фотография YAVA XL COB';
-    lightboxImage.src = item.dataset.gallery || '';
-    lightbox.hidden = false;
-    document.body.classList.add('no-scroll');
-    document.querySelector('[data-lightbox-close]')?.focus();
+  // Bounded, visibility-aware canvas system: white caustics on navy, blue shadows on ice.
+  const surfaces=$$('[data-water]').map((canvas,index)=>({
+    canvas,ctx:canvas.getContext('2d'),dark:canvas.parentElement.classList.contains('dark'),
+    visible:false,w:0,h:0,scale:1,seed:index*2.43,ripples:[]
   }));
-  document.querySelector('[data-lightbox-close]')?.addEventListener('click', closeLightbox);
-  lightbox?.addEventListener('click', (event) => { if (event.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', (event) => {
-    if (event.key === 'Escape' && lightbox && !lightbox.hidden) closeLightbox();
+  const resize=new ResizeObserver(entries=>{
+    entries.forEach(entry=>{
+      const s=surfaces.find(x=>x.canvas.parentElement===entry.target);
+      if(s){
+        s.w=entry.contentRect.width;s.h=entry.contentRect.height;
+        s.scale=Math.min(1,1100/Math.max(1,s.w),2100/Math.max(1,s.h));
+        s.canvas.width=Math.ceil(s.w*s.scale);s.canvas.height=Math.ceil(s.h*s.scale);
+        s.ctx?.setTransform(s.scale,0,0,s.scale,0,0);
+      }
+    });
+    scrollDirty=true;connectTopics();if(reduced)drawAll(0);
   });
+  const visibility=new IntersectionObserver(entries=>{
+    for(const entry of entries){const s=surfaces.find(x=>x.canvas.parentElement===entry.target);if(s)s.visible=entry.isIntersecting;}
+    if(reduced)drawAll(0);
+  },{rootMargin:'100px'});
+  surfaces.forEach(s=>{resize.observe(s.canvas.parentElement);visibility.observe(s.canvas.parentElement);});
+  function renderWater(s,time) {
+    const c=s.ctx;if(!c||!s.w||!s.h)return;
+    c.clearRect(0,0,s.w,s.h);
+    const t=time*.00016+s.seed;
+    const rgb=s.dark?'155,202,253':'39,100,168';
+    // Long refracted contours, deliberately visible on both background families.
+    for(let j=0;j<7;j++){
+      const y=s.h*(.12+j*.13);
+      c.beginPath();
+      for(let x=-30;x<=s.w+30;x+=32){
+        const wave=Math.sin(x*.005+t+j*.9)*18+Math.sin(x*.012-t*.72+j)*8;
+        if(x===-30)c.moveTo(x,y+wave);else c.lineTo(x,y+wave);
+      }
+      c.strokeStyle='rgba('+rgb+','+(s.dark?.11:.12)+')';
+      c.lineWidth=j%3===0?1.8:.8;c.stroke();
+      if(j%2===0){c.strokeStyle='rgba('+rgb+','+(s.dark?.045:.035)+')';c.lineWidth=13;c.stroke();}
+    }
+    for(let j=0;j<15;j++){
+      const x=((j*.618*s.w+t*14)%(s.w+60))-30;
+      const y=(Math.sin(j*9.4)*.5+.5)*s.h+Math.sin(t*2+j)*13;
+      const alpha=(.5+.5*Math.sin(t*2+j*1.7))*(s.dark?.44:.25);
+      c.beginPath();c.ellipse(x,y,j%3===0?2.3:1.2,j%3===0?3:1.7,.4,0,Math.PI*2);
+      c.fillStyle='rgba('+rgb+','+alpha+')';c.fill();
+    }
+    s.ripples=s.ripples.filter(r=>time-r.born<2000);
+    for(const r of s.ripples){
+      const age=(time-r.born)/2000;
+      for(let j=0;j<2;j++){
+        const radius=12+age*125-j*12;if(radius<0)continue;
+        c.beginPath();c.ellipse(r.x,r.y,radius,radius*.42,0,0,Math.PI*2);
+        c.strokeStyle='rgba(203,229,255,'+((1-age)*.32)+')';c.lineWidth=1;c.stroke();
+      }
+    }
+  }
+  function drawAll(t){surfaces.filter(s=>s.visible).forEach(s=>renderWater(s,t));}
+  const heroWater=surfaces[0];let lastRipple=0;
+  $('.hero').addEventListener('pointermove',e=>{
+    if(reduced||e.pointerType==='touch')return;
+    const now=performance.now();
+    if(now-lastRipple<115)return;lastRipple=now;
+    const r=heroWater.canvas.getBoundingClientRect();
+    heroWater.ripples.push({x:e.clientX-r.left,y:e.clientY-r.top,born:now});
+    if(heroWater.ripples.length>12)heroWater.ripples.shift();
+  },{passive:true});
 
-  const year = document.querySelector('[data-year]');
-  if (year) year.textContent = new Date().getFullYear();
+  // Connections are a diagram of real club topics, not a second decorative logo.
+  const scene=$('.club-scene');
+  const connections=$('.club-connections');
+  const topicNodes=$$('.club-topics li');
+  const paths=topicNodes.map(()=>{
+    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+    connections.appendChild(path);return path;
+  });
+  function connectTopics() {
+    if(!scene)return;
+    const r=scene.getBoundingClientRect(),cx=r.width*.5,cy=r.height*.5;
+    connections.setAttribute('viewBox','0 0 '+r.width+' '+r.height);
+    topicNodes.forEach((node,i)=>{
+      const n=node.getBoundingClientRect(),x=n.left-r.left+n.width/2,y=n.top-r.top+n.height/2;
+      paths[i].setAttribute('d','M '+cx+' '+cy+' Q '+((cx+x)/2+(i%2?24:-24))+' '+((cy+y)/2)+' '+x+' '+y);
+    });
+  }
+  scene.addEventListener('pointermove',e=>{
+    if(reduced||e.pointerType==='touch')return;
+    const r=scene.getBoundingClientRect();
+    scene.style.setProperty('--px',((e.clientX-r.left)/r.width-.5)*2);
+    scene.style.setProperty('--py',((e.clientY-r.top)/r.height-.5)*2);
+  },{passive:true});
+  scene.addEventListener('pointerleave',()=>{scene.style.setProperty('--px',0);scene.style.setProperty('--py',0);});
+  let lastConnections=0;
+  function tick(time) {
+    animationId=0;
+    if(document.hidden)return;
+    if(scrollDirty)updateScroll();
+    if(!reduced&&time-lastFrame>33){
+      drawAll(time);lastFrame=time;
+      if(time-lastConnections>100&&surfaces.find(s=>s.canvas.parentElement===scene.closest('section'))?.visible){connectTopics();lastConnections=time;}
+    }
+    if(!reduced)animationId=requestAnimationFrame(tick);
+  }
+  function start(){if(!animationId&&!document.hidden)animationId=requestAnimationFrame(tick);}
+  function setMotion() {
+    reduced=media.matches||userPaused;
+    root.classList.toggle('motion-paused',reduced);
+    root.dataset.motion=reduced?'reduced':'full';
+    motionButton.setAttribute('aria-pressed',String(reduced));
+    motionButton.textContent=media.matches?'Анимация отключена системой':userPaused?'Включить анимацию':'Приостановить анимацию';
+    motionButton.disabled=media.matches;
+    if(reduced){cancelAnimationFrame(animationId);animationId=0;surfaces.forEach(s=>{s.ripples=[];});drawAll(0);connectTopics();}
+    scrollDirty=true;start();
+  }
+  motionButton.addEventListener('click',()=>{userPaused=!userPaused;setMotion();});
+  media.addEventListener('change',setMotion);
+  addEventListener('scroll',()=>{scrollDirty=true;start();},{passive:true});
+  addEventListener('resize',()=>{scrollDirty=true;if(innerWidth>960)closeMenu();start();},{passive:true});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(animationId);animationId=0;}else{scrollDirty=true;start();}});
+  setMotion();
 })();
