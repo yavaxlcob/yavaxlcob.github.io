@@ -544,3 +544,16 @@ main, .site-footer { position: relative; z-index: 2; }
   .final-cta-content h2 { font-size: 54px; }
   .club-section .container { width: calc(100% - 36px); }
 }
+
+/* Final QA safeguards */
+.hero { isolation: isolate; }
+.hero-photo { z-index: 0; }
+.hero-backdrop { z-index: 1; }
+.hero-sheen, .hero-ripple { z-index: 2; }
+.hero-inner, .hero-footer { z-index: 3; }
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo { transform: none !important; }
+  .hero-sheen, .hero-ripple, .scroll-orb { animation: none !important; }
+  .voyage-frame { transform: none !important; }
+}
