@@ -3,13 +3,13 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#071014" />
+    <meta name="theme-color" content="#071114" />
     <meta name="description" content="Независимый клуб владельцев YAVA XL COB. Характеристики, комплектация, фото, опыт эксплуатации, доработки и живое Telegram-сообщество владельцев лодки." />
     <link rel="canonical" href="https://yavaxlcob.github.io/" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:title" content="YAVA XL COB — клуб владельцев лодки | Telegram-сообщество" />
-    <meta property="og:description" content="Независимое сообщество владельцев и поклонников YAVA XL COB: опыт, доработки, моторы, оснащение, рыбалка и путешествия." />
+    <meta property="og:description" content="Независимое сообщество владельцев YAVA XL COB: опыт, доработки, моторы, оснащение, рыбалка и путешествия." />
     <meta property="og:url" content="https://yavaxlcob.github.io/" />
     <meta property="og:image" content="https://yavaxlcob.github.io/assets/yava-main.jpg" />
     <meta name="twitter:card" content="summary_large_image" />
@@ -19,260 +19,99 @@
     <link rel="icon" href="favicon.svg" type="image/svg+xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Sora:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="styles.css" />
     <title>YAVA XL COB — клуб владельцев лодки | Telegram-сообщество</title>
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@graph": [
-          {
-            "@type": "WebSite",
-            "name": "YAVA XL COB — клуб владельцев",
-            "url": "https://yavaxlcob.github.io/",
-            "description": "Независимый клуб владельцев и поклонников лодки YAVA XL COB."
-          },
-          {
-            "@type": "Organization",
-            "name": "Клуб владельцев YAVA XL COB",
-            "url": "https://yavaxlcob.github.io/",
-            "sameAs": ["https://t.me/yavaxlcob", "https://vboats.ru/boats/volzhanka/yava-xl-cob/"]
-          },
-          {
-            "@type": "FAQPage",
-            "mainEntity": [
-              {"@type":"Question","name":"Что такое клуб владельцев YAVA XL COB?","acceptedAnswer":{"@type":"Answer","text":"Это независимое Telegram-сообщество владельцев и поклонников YAVA XL COB для обмена опытом, идеями и полезными решениями."}},
-              {"@type":"Question","name":"Это официальный сайт производителя?","acceptedAnswer":{"@type":"Answer","text":"Нет. Это независимый клуб владельцев. Бренды и официальные материалы принадлежат соответствующим правообладателям."}},
-              {"@type":"Question","name":"Можно ли вступить, если лодка еще не куплена?","acceptedAnswer":{"@type":"Answer","text":"Да. Сообщество открыто для тех, кто только изучает модель и хочет услышать реальный опыт владельцев."}},
-              {"@type":"Question","name":"Как вступить в Telegram?","acceptedAnswer":{"@type":"Answer","text":"Откройте ссылку https://t.me/yavaxlcob и присоединитесь к группе."}}
-            ]
-          }
+          {"@type":"WebSite","name":"YAVA XL COB — клуб владельцев","url":"https://yavaxlcob.github.io/","description":"Независимый клуб владельцев и поклонников лодки YAVA XL COB."},
+          {"@type":"Organization","name":"Клуб владельцев YAVA XL COB","url":"https://yavaxlcob.github.io/","sameAs":["https://t.me/yavaxlcob"]},
+          {"@type":"FAQPage","mainEntity":[
+            {"@type":"Question","name":"Что такое клуб владельцев YAVA XL COB?","acceptedAnswer":{"@type":"Answer","text":"Это независимое Telegram-сообщество владельцев и поклонников YAVA XL COB для обмена опытом, идеями и полезными решениями."}},
+            {"@type":"Question","name":"Это официальный сайт производителя?","acceptedAnswer":{"@type":"Answer","text":"Нет. Это независимый клуб владельцев. Бренды и официальные материалы принадлежат соответствующим правообладателям."}},
+            {"@type":"Question","name":"Можно ли вступить, если лодка еще не куплена?","acceptedAnswer":{"@type":"Answer","text":"Да. Сообщество открыто для тех, кто только изучает модель и хочет услышать реальный опыт владельцев."}},
+            {"@type":"Question","name":"Как вступить в Telegram?","acceptedAnswer":{"@type":"Answer","text":"Откройте ссылку https://t.me/yavaxlcob и присоединитесь к группе."}}
+          ]}
         ]
       }
     </script>
   </head>
   <body>
     <a class="skip-link" href="#main">Перейти к содержанию</a>
+    <div class="site-shell" id="top">
+      <canvas class="water-canvas" data-water-canvas aria-hidden="true"></canvas>
+      <header class="site-header" data-header>
+        <div class="container header-inner">
+          <a class="brand" href="#top" aria-label="YAVA XL COB — в начало"><span class="brand-mark" aria-hidden="true">Y</span><span class="brand-copy"><strong>YAVA</strong><span>XL COB / OWNER CLUB</span></span></a>
+          <nav class="main-nav" data-nav aria-label="Основная навигация"><a href="#profile">История</a><a href="#specs">Параметры</a><a href="#kit">Комплектация</a><a href="#gallery">Галерея</a><a href="#club">Клуб</a></nav>
+          <a class="header-telegram" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">Вступить в клуб <span aria-hidden="true">↗</span></a>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-toggle><span></span><span></span><span></span><span class="sr-only">Открыть меню</span></button>
+        </div>
+        <div class="header-progress" data-scroll-progress></div>
+      </header>
 
-    <header class="site-header" data-header>
-      <div class="container header-inner">
-        <a class="brand" href="#top" aria-label="YAVA XL COB — в начало">
-          <span class="brand-mark" aria-hidden="true">
-            <svg viewBox="0 0 40 40" fill="none"><path d="M5 28.5c8.2 3.9 18.8 4.4 30 1.3M8 22.8l8.1-8.1 5.6 5.6L32 10" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 32.5h26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>
-          </span>
-          <span class="brand-copy"><strong>YAVA</strong><span>XL COB / OWNER CLUB</span></span>
-        </a>
-
-        <nav class="main-nav" data-nav aria-label="Основная навигация">
-          <a href="#profile">Модель</a>
-          <a href="#specs">Характеристики</a>
-          <a href="#kit">Комплектация</a>
-          <a href="#gallery">Галерея</a>
-          <a href="#club">Клуб</a>
-        </nav>
-
-        <a class="header-telegram" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">
-          <span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span>
-          <span>В Telegram</span>
-        </a>
-        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="main-nav" data-menu-toggle>
-          <span></span><span></span><span></span><span class="sr-only">Открыть меню</span>
-        </button>
-      </div>
-    </header>
-
-    <main id="main">
-      <section class="hero" id="top">
-        <div class="hero-backdrop" aria-hidden="true"></div>
-        <div class="hero-image-wrap" aria-hidden="true"><img src="assets/yava-main.jpg" alt="" /></div>
-        <div class="hero-grid-lines" aria-hidden="true"></div>
-        <div class="container hero-content">
-          <div class="hero-copy" data-reveal>
-            <div class="eyebrow"><span class="eyebrow-dot"></span> НЕОФИЦИАЛЬНЫЙ КЛУБ ВЛАДЕЛЬЦЕВ</div>
-            <h1><span>YAVA XL COB</span><br />клуб владельцев</h1>
-            <p class="hero-lead">Независимое сообщество владельцев и поклонников YAVA XL COB: опыт эксплуатации, доработки, моторы, оснащение, рыбалка, путешествия и живое общение.</p>
-            <div class="hero-actions">
-              <a class="button button-primary" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span> Вступить в Telegram <span class="arrow">↗</span></a>
-              <a class="button button-ghost" href="#specs">Смотреть характеристики <span class="arrow">↓</span></a>
+      <main id="main">
+        <section class="hero" aria-labelledby="hero-title">
+          <div class="hero-backdrop" aria-hidden="true"></div>
+          <div class="hero-photo" data-parallax="hero" aria-hidden="true"><img src="assets/yava-main.jpg" alt="" fetchpriority="high" /></div>
+          <div class="hero-sheen" aria-hidden="true"></div>
+          <div class="hero-ripple ripple-one" aria-hidden="true"></div><div class="hero-ripple ripple-two" aria-hidden="true"></div>
+          <div class="container hero-inner">
+            <div class="hero-copy">
+              <p class="eyebrow"><span class="eyebrow-mark"></span> Независимый клуб владельцев</p>
+              <h1 id="hero-title">YAVA XL COB<br /><em>на своей воде</em></h1>
+              <p class="hero-lead">Опыт эксплуатации, оснащение, доработки и маршруты — всё, что помогает сделать лодку своей.</p>
+              <div class="hero-actions"><a class="button button-primary" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span> Вступить в Telegram <span aria-hidden="true">↗</span></a><a class="button button-quiet" href="#specs">Смотреть параметры <span aria-hidden="true">↓</span></a></div>
             </div>
-            <div class="hero-note"><span class="note-line"></span> Здесь говорят о лодках — без дилерской рекламы</div>
+            <div class="hero-side-note"><span class="side-note-line"></span><span>Кабинная лодка<br />для длинного маршрута</span></div>
+            <div class="hero-specs" aria-label="Основные параметры"><div class="hero-spec"><strong>5,68</strong><span>м<br />длина</span></div><div class="hero-spec"><strong>130</strong><span>л.с.<br />максимум</span></div><div class="hero-spec"><strong>120</strong><span>л<br />бак</span></div><div class="hero-spec"><strong>5</strong><span>человек<br />на борту</span></div></div>
           </div>
+          <div class="container hero-footer"><span>RIVER / CABIN / COMMUNITY</span><a href="#profile" class="hero-scroll"><span class="scroll-orb"></span> Листайте, чтобы войти в историю</a><span>YAVA XL COB</span></div>
+        </section>
 
-          <div class="hero-aside" data-reveal>
-            <div class="hero-aside-label">YAVA / XL COB</div>
-            <div class="hero-aside-number">01<span>/05</span></div>
-            <div class="hero-aside-line"></div>
-            <div class="hero-aside-copy">Кабинная лодка для воды, которая не заканчивается на выходных.</div>
-          </div>
-
-          <div class="hero-stats" data-reveal>
-            <div class="hero-stat"><strong>130</strong><span>л.с.<br />максимум</span></div>
-            <div class="hero-stat"><strong>5</strong><span>пассажиров<br />на борту</span></div>
-            <div class="hero-stat"><strong>120</strong><span>л<br />топливный бак</span></div>
-          </div>
-        </div>
-        <div class="hero-bottom container">
-          <span>YAVA XL COB / 2026</span><span class="hero-scroll"><span class="scroll-dot"></span> ЛИСТАЙТЕ НИЖЕ</span><span>ALUMINIUM / CABIN / COMMUNITY</span>
-        </div>
-      </section>
-
-      <section class="section section-dark" id="profile">
-        <div class="container">
-          <div class="section-head split-head" data-reveal>
-            <div><div class="section-kicker">01 / НЕ ПРОСТО КОРПУС</div><h2>Одна лодка.<br /><em>Несколько темпов жизни.</em></h2></div>
-            <p>YAVA XL COB собрана вокруг сценария, а не вокруг витрины. Утренний выход на рыбалку, семейный маршрут, прохладный вечер на воде — всё начинается с уверенности в том, что на борту удобно.</p>
-          </div>
-          <div class="reasons-grid">
-            <article class="reason-card reason-card-large" data-reveal><span class="card-index">01</span><div class="line-icon"><svg viewBox="0 0 48 48" fill="none"><path d="M7 31c8 4.5 23 6 34-1.5M10 25l7-8 7 6 8-12 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Кабинный формат<br />без лишней тяжести</h3><p>Защищённое пространство и продуманный кокпит — чтобы не выбирать между комфортом и настоящей водой.</p><span class="card-arrow">↗</span></article>
-            <article class="reason-card" data-reveal><span class="card-index">02</span><div class="line-icon"><svg viewBox="0 0 48 48" fill="none"><path d="M8 29c7-7 15-7 22 0s12 7 15 0M8 36c7-7 15-7 22 0s12 7 15 0M24 7v12M18 12l6-5 6 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Комфорт,<br />когда меняется погода</h3><p>Ветровое стекло, боковые окна и cabin-компоновка помогают продлить сезон.</p></article>
-            <article class="reason-card" data-reveal><span class="card-index">03</span><div class="line-icon"><svg viewBox="0 0 48 48" fill="none"><path d="M9 12h30M9 24h30M9 36h30M15 8v32M33 8v32" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Алюминий<br />5083 и силовой набор</h3><p>Практичная основа для воды, прицепа и долгих разговоров о доработках.</p></article>
-            <article class="reason-card" data-reveal><span class="card-index">04</span><div class="line-icon"><svg viewBox="0 0 48 48" fill="none"><path d="M8 29c9-2 15-10 18-20 4 13 7 16 14 20-9 1-16 4-22 11-3-5-6-8-10-11Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></div><h3>Рыбалка, прогулки,<br />путешествия</h3><p>Баланс габаритов, вместимости и пространства для своего маршрута.</p></article>
-            <article class="reason-card" data-reveal><span class="card-index">05</span><div class="line-icon"><svg viewBox="0 0 48 48" fill="none"><path d="M24 8v32M8 24h32M13 13l22 22M35 13 13 35" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div><h3>Есть куда<br />расти</h3><p>Эхолот, отопитель, тент, свет, прицеп — владельцы знают, как собрать свою версию.</p></article>
-            <article class="reason-card reason-card-accent" data-reveal><span class="card-index">06</span><div class="quote-mark">“</div><h3>Реальный опыт<br />важнее рекламных обещаний</h3><p>В клубе обсуждают то, что происходит на воде: честно, конкретно, с фотографиями и цифрами.</p><a href="#club" class="text-link">Зачем вступать <span>↗</span></a></article>
-          </div>
-        </div>
-      </section>
-
-      <section class="section section-slate model-statement">
-        <div class="container statement-grid">
-          <div class="statement-media" data-reveal><img src="assets/yava-01.jpg" alt="Интерьер кабины YAVA XL COB" loading="lazy" /><span class="media-label">02 / CABIN</span></div>
-          <div class="statement-copy" data-reveal><div class="section-kicker">СВОЙ СЦЕНАРИЙ / СВОЯ НАСТРОЙКА</div><h2>Cabin-формат,<br /><em>который остаётся живым.</em></h2><p>В YAVA XL COB есть редкое сочетание: компактность, защищённость и открытость к настройке под себя. Поэтому у каждой лодки со временем появляется свой характер — и свой список любимых решений.</p><div class="statement-tags"><span>Рыбалка</span><span>Семья</span><span>Дальний маршрут</span><span>Межсезонье</span></div></div>
-        </div>
-      </section>
-
-      <section class="section section-paper" id="specs">
-        <div class="container">
-          <div class="section-head split-head dark-head" data-reveal><div><div class="section-kicker">02 / ЦИФРЫ МОДЕЛИ</div><h2>Характеристики,<br /><em>которые держат курс.</em></h2></div><p>Официальные параметры YAVA XL COB — в одном месте, без мелкого шрифта. Сохраняйте, сравнивайте, задавайте вопросы владельцам.</p></div>
-          <div class="specs-featured" data-reveal>
-            <div class="big-spec"><strong>5,68 <small>м</small></strong><span>длина габаритная</span></div>
-            <div class="big-spec"><strong>2,01 <small>м</small></strong><span>ширина габаритная</span></div>
-            <div class="big-spec"><strong>740 <small>кг</small></strong><span>вес лодки</span></div>
-            <div class="big-spec accent-spec"><strong>130 <small>л.с.</small></strong><span>максимальная мощность</span></div>
-          </div>
-          <div class="specs-grid" data-reveal>
-            <div class="spec-row"><span>Длина наибольшая</span><strong>5,65 м</strong></div>
-            <div class="spec-row"><span>Ширина наибольшая</span><strong>1,97 м</strong></div>
-            <div class="spec-row"><span>Высота борта на миделе</span><strong>1 м</strong></div>
-            <div class="spec-row"><span>Осадка макс. без мотора</span><strong>0,43 м</strong></div>
-            <div class="spec-row"><span>Высота габаритная, снаряжённая</span><strong>2,44 м</strong></div>
-            <div class="spec-row"><span>Высота транспортировочная</span><strong>1,98 м</strong></div>
-            <div class="spec-row"><span>Мостовой клиренс</span><strong>2,01 м</strong></div>
-            <div class="spec-row"><span>Угол килеватости на транце</span><strong>14°</strong></div>
-            <div class="spec-row"><span>Высота транца</span><strong>0,635 м</strong></div>
-            <div class="spec-row"><span>Грузоподъёмность</span><strong>605 кг</strong></div>
-            <div class="spec-row"><span>Пассажировместимость</span><strong>5 человек</strong></div>
-            <div class="spec-row"><span>Стационарный топливный бак</span><strong>120 л</strong></div>
-            <div class="spec-row"><span>Толщина днища / бортов</span><strong>4 / 3 мм</strong></div>
-            <div class="spec-row"><span>Тип двигателя</span><strong>подвесной</strong></div>
-          </div>
-          <p class="source-note">Параметры приведены по официальной странице модели VBOATS; комплектация и характеристики могут обновляться производителем.</p>
-        </div>
-      </section>
-
-      <section class="section section-dark kit-section" id="kit">
-        <div class="container">
-          <div class="section-head split-head" data-reveal><div><div class="section-kicker">03 / СТАНДАРТНАЯ КОМПЛЕКТАЦИЯ</div><h2>Основа уже собрана.<br /><em>Дальше — ваш почерк.</em></h2></div><p>Пять зон, в которых чувствуется практичный подход: от корпуса и топлива до света в кабине. Переключайтесь между вкладками.</p></div>
-          <div class="kit-layout" data-reveal>
-            <div class="kit-tabs" role="tablist" aria-label="Категории комплектации">
-              <button class="kit-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-exterior" data-tab="exterior"><span>01</span> Экстерьер</button>
-              <button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-control" data-tab="control"><span>02</span> Управление и двигатель</button>
-              <button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-fuel" data-tab="fuel"><span>03</span> Топливная система</button>
-              <button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-interior" data-tab="interior"><span>04</span> Интерьер</button>
-              <button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-electrics" data-tab="electrics"><span>05</span> Электрика</button>
-            </div>
-            <div class="kit-panels">
-              <div class="kit-panel is-active" id="panel-exterior" role="tabpanel" data-panel="exterior"><div class="panel-heading"><span>01</span><h3>Экстерьер</h3></div><ul><li>Корпус из алюминия 5083</li><li>Толщина металла днище / борта — 4 / 3 мм</li><li>Силовой набор и двухсторонняя проварка швов по технологии DSW</li><li>Привальный брус ПВХ и носовая палуба с самоотливом</li><li>Носовой рым и блоки плавучести</li><li>Площадка для датчика эхолота</li><li>Алюминиевые швартовные утки</li><li>Увеличенные кринолины с покрытием EVA</li><li>Якорный носовой рундук</li></ul></div>
-              <div class="kit-panel" id="panel-control" role="tabpanel" data-panel="control" hidden><div class="panel-heading"><span>02</span><h3>Управление и двигатель</h3></div><ul><li>Штурвал пять спиц, полированная нержавеющая сталь</li><li>Рулевая система: редуктор и трос</li><li>Подвесной двигатель мощностью до 130 л.с.</li><li>Удобная позиция управления внутри защищённой кабины</li></ul></div>
-              <div class="kit-panel" id="panel-fuel" role="tabpanel" data-panel="fuel" hidden><div class="panel-heading"><span>03</span><h3>Топливная система</h3></div><ul><li>Датчик уровня топлива</li><li>Заливная горловина 38 мм</li><li>Вентиляционная горловина топливного бака</li><li>Стационарный бензобак 120 л</li></ul></div>
-              <div class="kit-panel" id="panel-interior" role="tabpanel" data-panel="interior" hidden><div class="panel-heading"><span>04</span><h3>Интерьер</h3></div><ul><li>Морская фурнитура и закалённое ветровое стекло 5 мм</li><li>Боковые каленые окна, сдвижные форточки</li><li>Носовая и кормовая двери с замками</li><li>Складывающиеся передние сиденья и мягкий салон</li><li>Задние продольные рундуки с трансформацией в спальное место</li><li>Настил в кокпите из окрашенного алюминия</li><li>Настил в носу из квинтета</li><li>Быстросъёмные стойки сидений со слайдерами</li><li>Перчаточный ящик с замком и ручка переднего пассажира</li></ul></div>
-              <div class="kit-panel" id="panel-electrics" role="tabpanel" data-panel="electrics" hidden><div class="panel-heading"><span>05</span><h3>Электрика</h3></div><ul><li>Сеть 12 В и заводской жгут электрики</li><li>Выключатели массы и ходовые огни</li><li>USB-розетка, клеммы и место крепления аккумулятора</li><li>Светодиодное освещение кабины и кнопки с подсветкой</li><li>Звуковой сигнал и трюмная помпа</li><li>Мачта с круговым, топовым и кормовым огнями</li></ul></div>
+        <section class="voyage" id="profile" aria-labelledby="voyage-title">
+          <div class="container voyage-grid">
+            <div class="voyage-visual-wrap"><div class="voyage-visual" data-voyage-visual><div class="voyage-frame is-active" data-scene-frame="0"><img src="assets/yava-main.jpg" alt="YAVA XL COB на воде" loading="lazy" /></div><div class="voyage-frame" data-scene-frame="1"><img src="assets/yava-01.jpg" alt="Кабина YAVA XL COB" loading="lazy" /></div><div class="voyage-frame" data-scene-frame="2"><img src="assets/yava-03.jpg" alt="Носовая часть и палуба YAVA XL COB" loading="lazy" /></div><div class="voyage-frame" data-scene-frame="3"><img src="assets/yava-11.jpg" alt="Вид из кабины YAVA XL COB" loading="lazy" /></div><div class="voyage-visual-glow" aria-hidden="true"></div><div class="voyage-location"><span></span><b data-voyage-label>Открытая вода</b><small>YAVA XL COB / OWNER CLUB</small></div></div></div>
+            <div class="voyage-steps">
+              <div class="section-intro voyage-intro"><p class="eyebrow eyebrow-dark">01 / История модели</p><h2 id="voyage-title">Одна лодка.<br /><em>Несколько темпов жизни.</em></h2><p>YAVA XL COB раскрывается не в каталоге, а на воде. Выйти на рассвете, укрыться от ветра, взять с собой семью или уйти дальше привычного берега.</p></div>
+              <article class="voyage-step is-active" data-voyage-step="0"><span class="step-number">01</span><div><h3>Выйти на воду</h3><p>Кабинная компоновка даёт ощущение защищённости, но не отрезает от реки. Здесь одинаково уместны ранняя рыбалка и длинный спокойный переход.</p></div><span class="step-metric">5,68 м / 2,01 м</span></article>
+              <article class="voyage-step" data-voyage-step="1"><span class="step-number">02</span><div><h3>Продлить день</h3><p>Ветровое стекло, боковые окна и живой кокпит помогают не зависеть от первого прохладного ветра и оставаться на воде дольше.</p></div><span class="step-metric">cabin / comfort</span></article>
+              <article class="voyage-step" data-voyage-step="2"><span class="step-number">03</span><div><h3>Собрать под себя</h3><p>Алюминиевый корпус 5083, силовой набор и пространство для оснащения становятся основой личной конфигурации: от эхолота до отопителя.</p></div><span class="step-metric">5083 / 14°</span></article>
+              <article class="voyage-step" data-voyage-step="3"><span class="step-number">04</span><div><h3>Уйти дальше</h3><p>Главный смысл клуба — обменяться реальным опытом и не собирать маршрут, мотор или доработку в одиночку.</p></div><span class="step-metric">route / people</span></article>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section class="section section-slate gallery-section" id="gallery">
-        <div class="container">
-          <div class="section-head split-head" data-reveal><div><div class="section-kicker">04 / ВИЗУАЛЬНЫЙ ДНЕВНИК</div><h2>Лодка выглядит<br /><em>по-разному с каждого борта.</em></h2></div><p>Собрали несколько официальных кадров в новую композицию — ближе к реальной жизни владельцев: вода, детали, пространство и цвет.</p></div>
-          <div class="gallery-grid" data-reveal>
-            <button class="gallery-item gallery-item-main" type="button" data-gallery="assets/yava-main.jpg" data-local="assets/yava-main.jpg"><img src="assets/yava-main.jpg" alt="YAVA XL COB на воде, вид сбоку" loading="lazy" /><span class="gallery-caption"><strong>Полный ход</strong><small>YAVA XL COB / вода</small></span><span class="gallery-open">↗</span></button>
-            <button class="gallery-item gallery-item-tall" type="button" data-gallery="https://vboats.ru/images/cms/data/yava-xl-cob-52026/26-05_yava_xl_cob_00003.jpg" data-local="assets/yava-03.jpg"><img src="assets/yava-03.jpg" alt="Деталь носовой части YAVA XL COB" loading="lazy" /><span class="gallery-caption"><strong>Детали решают</strong><small>палуба / свет</small></span><span class="gallery-open">↗</span></button>
-            <button class="gallery-item" type="button" data-gallery="https://vboats.ru/images/cms/data/yava-xl-cob-52026/26-05_yava_xl_cob_00005.jpg" data-local="assets/yava-05.jpg"><img src="assets/yava-05.jpg" alt="Вид на оборудование на крыше кабины" loading="lazy" /><span class="gallery-caption"><strong>Оснащение</strong><small>под свой маршрут</small></span><span class="gallery-open">↗</span></button>
-            <button class="gallery-item" type="button" data-gallery="https://vboats.ru/images/cms/data/yava-xl-cob-52026/26-05_yava_xl_cob_00007.jpg" data-local="assets/yava-07.jpg"><img src="assets/yava-07.jpg" alt="YAVA XL COB на стоянке" loading="lazy" /><span class="gallery-caption"><strong>Свой цвет</strong><small>свой характер</small></span><span class="gallery-open">↗</span></button>
-            <button class="gallery-item gallery-item-wide" type="button" data-gallery="https://vboats.ru/images/cms/data/yava-xl-cob-52026/26-05_yava_xl_cob_00011.jpg" data-local="assets/yava-11.jpg"><img src="assets/yava-11.jpg" alt="YAVA XL COB, вид из кабины" loading="lazy" /><span class="gallery-caption"><strong>Внутри маршрута</strong><small>кабина / обзор</small></span><span class="gallery-open">↗</span></button>
-          </div>
-          <div class="gallery-footer" data-reveal><a class="outline-link" href="https://vboats.ru/boats/volzhanka/yava-xl-cob/" target="_blank" rel="noreferrer">Открыть полную галерею VBOATS <span>↗</span></a><span>Официальные фото / новая подача</span></div>
+        <section class="spec-section" id="specs" aria-labelledby="specs-title"><div class="container"><div class="section-heading section-heading-wide"><div><p class="eyebrow eyebrow-dark">02 / Параметры на воде</p><h2 id="specs-title">Цифры, которые<br /><em>держат курс.</em></h2></div><p>Основные характеристики YAVA XL COB собраны крупно и без мелкого шрифта. Полный список — рядом, чтобы сравнивать, сохранять и обсуждать с владельцами.</p></div><div class="spec-hero-grid"><article class="spec-hero-card spec-hero-card-main"><span>Длина габаритная</span><strong><b data-count="5.68" data-decimals="2">5,68</b><small>м</small></strong><i>достаточно компактная для прицепа<br />и достаточно большая для маршрута</i></article><article class="spec-hero-card"><span>Максимальный двигатель</span><strong><b data-count="130">130</b><small>л.с.</small></strong><i>мощность, с которой<br />маршрут не заканчивается рано</i></article><article class="spec-hero-card"><span>Пассажировместимость</span><strong><b data-count="5">5</b><small>чел.</small></strong><i>пространство для команды,<br />семьи и снаряжения</i></article></div><div class="spec-list" data-reveal><div class="spec-list-row"><span>Длина наибольшая</span><strong>5,65 м</strong><span>Ширина</span><strong>2,01 м</strong></div><div class="spec-list-row"><span>Вес</span><strong>740 кг</strong><span>Грузоподъёмность</span><strong>605 кг</strong></div><div class="spec-list-row"><span>Стационарный бак</span><strong>120 л</strong><span>Килеватость на транце</span><strong>14°</strong></div><div class="spec-list-row"><span>Высота транца</span><strong>0,635 м</strong><span>Толщина днища / бортов</span><strong>4 / 3 мм</strong></div></div><p class="source-note">Параметры приведены по открытым материалам модели; комплектация и характеристики могут обновляться производителем.</p></div></section>
 
-          <div class="colors-block" data-reveal>
-            <div class="colors-copy"><div class="section-kicker">COLOR STUDY</div><h3>Цвет — тоже часть<br />характера лодки.</h3><p>На официальной странице доступны разные варианты окраски борта. Переключите оттенок и посмотрите, как меняется настроение.</p></div>
-            <div class="color-stage"><img id="color-preview" src="assets/color-blue.png" alt="YAVA XL COB в синем цвете" /><span class="color-stage-label">YAVA XL COB / <strong data-color-name>Синий</strong></span></div>
-            <div class="color-picker" role="list" aria-label="Цветовые варианты">
-              <button class="color-dot" type="button" style="--dot:#101618" data-color="Серый графит" data-image="assets/color-gray.png" aria-label="Серый графит"></button>
-              <button class="color-dot" type="button" style="--dot:#f0f2f0" data-color="Белый" data-image="assets/color-white.png" aria-label="Белый"></button>
-              <button class="color-dot" type="button" style="--dot:#0a6ad8" data-color="Синий" data-image="assets/color-blue.png" aria-label="Синий" aria-pressed="true"></button>
-              <button class="color-dot" type="button" style="--dot:#dd252b" data-color="Красный" data-image="assets/color-red.png" aria-label="Красный"></button>
-              <button class="color-dot" type="button" style="--dot:#ef8b1a" data-color="Оранжевый" data-image="assets/color-orange.png" aria-label="Оранжевый"></button>
-              <button class="color-dot" type="button" style="--dot:#e4c21d" data-color="Жёлтый" data-image="assets/color-yellow.png" aria-label="Жёлтый"></button>
-              <button class="color-dot" type="button" style="--dot:#1c7d52" data-color="Зелёный" data-image="assets/color-green.png" aria-label="Зелёный"></button>
-              <button class="color-dot" type="button" style="--dot:#050809" data-color="Чёрный" data-image="assets/color-black.png" aria-label="Чёрный"></button>
-            </div>
-          </div>
-        </div>
-      </section>
+        <section class="editorial-section" id="use" aria-labelledby="use-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">03 / Сценарии</p><h2 id="use-title">Не просто лодка.<br /><em>Своя территория.</em></h2></div><p>Один и тот же корпус становится разным инструментом. Всё зависит от того, зачем вы выходите из марины и с кем делите маршрут.</p></div><div class="editorial-grid"><article class="editorial-card editorial-card-large"><div class="editorial-photo"><img src="assets/yava-09.jpg" alt="YAVA XL COB на воде для рыбалки" loading="lazy" /><span>01 / Тишина</span></div><div class="editorial-copy"><h3>Рыбалка<br /><em>до первого света.</em></h3><p>Место для снастей, эхолота и раннего старта без суеты. Практичная база для тех, кто ценит точность и тишину.</p></div></article><article class="editorial-card"><div class="editorial-photo"><img src="assets/yava-07.jpg" alt="YAVA XL COB для семейной прогулки" loading="lazy" /><span>02 / Вместе</span></div><div class="editorial-copy"><h3>Семья,<br /><em>ветер за стеклом.</em></h3><p>Кабина и мягкий салон помогают оставаться на воде, даже когда погода решила сменить планы.</p></div></article><article class="editorial-card editorial-card-dark"><div class="editorial-copy"><span class="card-overline">03 / Свой почерк</span><h3>Доработки,<br /><em>которые имеют смысл.</em></h3><p>Электрика, отопитель, тент, прицеп, свет и Garmin — в клубе всегда есть с чего начать и у кого спросить.</p><a href="#club" class="inline-link">Обсудить в клубе <span aria-hidden="true">↗</span></a></div></article></div></div></section>
 
-      <section class="section section-paper audience-section" id="audience">
-        <div class="container">
-          <div class="section-head split-head dark-head" data-reveal><div><div class="section-kicker">05 / КОМУ ПОДОЙДЁТ</div><h2>Вода не спрашивает,<br /><em>какой сегодня день.</em></h2></div><p>Один и тот же корпус может стать разным инструментом. Всё зависит от того, зачем вы выходите из марины.</p></div>
-          <div class="audience-grid">
-            <article class="audience-card" data-reveal><span class="audience-number">01</span><span class="audience-icon">⌁</span><h3>Для рыбалки</h3><p>Пространство для снастей, эхолота и раннего старта без суеты.</p><span class="audience-tag">точность / тишина</span></article>
-            <article class="audience-card" data-reveal><span class="audience-number">02</span><span class="audience-icon">◌</span><h3>Для семейных прогулок</h3><p>Кабина, мягкий салон и место, где удобно переждать ветер.</p><span class="audience-tag">вместе / спокойно</span></article>
-            <article class="audience-card" data-reveal><span class="audience-number">03</span><span class="audience-icon">↗</span><h3>Для путешествий</h3><p>Когда хочется увидеть новый берег, а не только новую точку на карте.</p><span class="audience-tag">дальше / глубже</span></article>
-            <article class="audience-card" data-reveal><span class="audience-number">04</span><span class="audience-icon">✦</span><h3>Для межсезонья</h3><p>Защита от прохладной погоды продлевает личный сезон на воде.</p><span class="audience-tag">ветер / маршрут</span></article>
-            <article class="audience-card audience-card-wide" data-reveal><span class="audience-number">05</span><span class="audience-icon">+</span><h3>Для тех, кто любит дооснащение</h3><p>Электрика, отопители, тенты, прицепы и свои решения — в клубе всегда есть с чего начать.</p><span class="audience-tag">собрать / настроить</span></article>
-            <article class="audience-card audience-card-wide accent-audience" data-reveal><span class="audience-number">06</span><span class="audience-icon">◎</span><h3>Для тех, кому важны свои люди</h3><p>Лодка становится лучше, когда за ней есть живое сообщество, которое отвечает.</p><a href="#club" class="text-link">Перейти к клубу <span>↗</span></a></article>
-          </div>
-        </div>
-      </section>
+        <section class="kit-section" id="kit" aria-labelledby="kit-title"><div class="container"><div class="section-heading"><div><p class="eyebrow">04 / Комплектация</p><h2 id="kit-title">Основа уже собрана.<br /><em>Дальше — ваш почерк.</em></h2></div><p>Пять зон, в которых чувствуется практичный подход — от корпуса и топлива до света в кабине. Переключайтесь между крупными вкладками.</p></div><div class="kit-layout"><div class="kit-tabs" role="tablist" aria-label="Категории комплектации"><button class="kit-tab is-active" type="button" role="tab" aria-selected="true" aria-controls="panel-exterior" data-tab="exterior"><span>01</span><b>Экстерьер</b></button><button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-control" data-tab="control"><span>02</span><b>Управление</b></button><button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-fuel" data-tab="fuel"><span>03</span><b>Топливо</b></button><button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-interior" data-tab="interior"><span>04</span><b>Интерьер</b></button><button class="kit-tab" type="button" role="tab" aria-selected="false" aria-controls="panel-electrics" data-tab="electrics"><span>05</span><b>Электрика</b></button></div><div class="kit-panels">
+          <div class="kit-panel is-active" id="panel-exterior" role="tabpanel" data-panel="exterior"><div class="panel-heading"><span>01 / 05</span><h3>Экстерьер</h3></div><ul><li>Корпус из алюминия 5083</li><li>Толщина металла днище / борта — 4 / 3 мм</li><li>Силовой набор и двухсторонняя проварка швов по технологии DSW</li><li>Привальный брус ПВХ и носовая палуба с самоотливом</li><li>Площадка для датчика эхолота</li><li>Увеличенные кринолины с покрытием EVA</li></ul></div>
+          <div class="kit-panel" id="panel-control" role="tabpanel" data-panel="control" hidden><div class="panel-heading"><span>02 / 05</span><h3>Управление</h3></div><ul><li>Штурвал пять спиц, полированная нержавеющая сталь</li><li>Рулевая система: редуктор и трос</li><li>Подвесной двигатель мощностью до 130 л.с.</li><li>Удобная позиция управления внутри кабины</li></ul></div>
+          <div class="kit-panel" id="panel-fuel" role="tabpanel" data-panel="fuel" hidden><div class="panel-heading"><span>03 / 05</span><h3>Топливная система</h3></div><ul><li>Датчик уровня топлива</li><li>Заливная горловина 38 мм</li><li>Вентиляционная горловина топливного бака</li><li>Стационарный бензобак 120 л</li></ul></div>
+          <div class="kit-panel" id="panel-interior" role="tabpanel" data-panel="interior" hidden><div class="panel-heading"><span>04 / 05</span><h3>Интерьер</h3></div><ul><li>Морская фурнитура и закалённое ветровое стекло 5 мм</li><li>Боковые каленые окна, сдвижные форточки</li><li>Носовая и кормовая двери с замками</li><li>Складывающиеся передние сиденья и мягкий салон</li><li>Задние продольные рундуки с трансформацией в спальное место</li><li>Настил в кокпите из окрашенного алюминия</li></ul></div>
+          <div class="kit-panel" id="panel-electrics" role="tabpanel" data-panel="electrics" hidden><div class="panel-heading"><span>05 / 05</span><h3>Электрика</h3></div><ul><li>Сеть 12 В и заводской жгут электрики</li><li>Выключатели массы и ходовые огни</li><li>USB-розетка и место крепления аккумулятора</li><li>Светодиодное освещение кабины</li><li>Звуковой сигнал и трюмная помпа</li><li>Мачта с круговым, топовым и кормовым огнями</li></ul></div>
+        </div></div></div></section>
 
-      <section class="section section-telegram" id="club">
-        <div class="telegram-glow" aria-hidden="true"></div>
-        <div class="container club-grid">
-          <div class="club-copy" data-reveal><div class="section-kicker light-kicker">06 / КЛУБ ВЛАДЕЛЬЦЕВ</div><h2>Хороший вопрос<br /><em>не должен оставаться без ответа.</em></h2><p>В Telegram уже можно обсуждать то, что обычно выясняется только на воде: какой винт выбрать, куда поставить эхолот, как организовать свет, отопление, тент или прицеп.</p><a class="button button-telegram" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3-1 .5.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span> Перейти в Telegram <span class="arrow">↗</span></a></div>
-          <div class="club-card" data-reveal><div class="club-card-top"><span class="telegram-bubble"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span><span>YAVA XL COB</span><span class="online-dot">● онлайн</span></div><div class="club-handle">@yavaxlcob</div><div class="club-rule"></div><ul class="club-list"><li><span>01</span> Живое общение владельцев</li><li><span>02</span> Моторы, винты, оборудование</li><li><span>03</span> Эхолоты, электрика, отопители</li><li><span>04</span> Фотографии своих лодок</li><li><span>05</span> Реальные отзывы без рекламы</li></ul><a class="club-card-link" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">t.me/yavaxlcob <span>↗</span></a></div>
-        </div>
-      </section>
+        <section class="gallery-section" id="gallery" aria-labelledby="gallery-title"><div class="container"><div class="section-heading"><div><p class="eyebrow eyebrow-dark">05 / Визуальный дневник</p><h2 id="gallery-title">Лодка выглядит<br /><em>по-разному с каждого борта.</em></h2></div><p>Большие кадры вместо набора миниатюр: вода, детали, кабина и тот момент, когда лодка уже стала частью маршрута.</p></div><div class="gallery-grid"><button class="gallery-item gallery-item-main" type="button" data-gallery="assets/yava-main.jpg"><img src="assets/yava-main.jpg" alt="YAVA XL COB на воде, вид сбоку" loading="lazy" /><span class="gallery-caption"><strong>Полный ход</strong><small>YAVA XL COB / вода</small></span><span class="gallery-open" aria-hidden="true">↗</span></button><button class="gallery-item" type="button" data-gallery="assets/yava-03.jpg"><img src="assets/yava-03.jpg" alt="Носовая часть YAVA XL COB" loading="lazy" /><span class="gallery-caption"><strong>Детали решают</strong><small>палуба / свет</small></span><span class="gallery-open" aria-hidden="true">↗</span></button><button class="gallery-item gallery-item-tall" type="button" data-gallery="assets/yava-05.jpg"><img src="assets/yava-05.jpg" alt="Оснащение на крыше кабины YAVA XL COB" loading="lazy" /><span class="gallery-caption"><strong>Под свой маршрут</strong><small>оснащение / воздух</small></span><span class="gallery-open" aria-hidden="true">↗</span></button><button class="gallery-item" type="button" data-gallery="assets/yava-14.jpg"><img src="assets/yava-14.jpg" alt="YAVA XL COB на стоянке" loading="lazy" /><span class="gallery-caption"><strong>Свой характер</strong><small>цвет / форма</small></span><span class="gallery-open" aria-hidden="true">↗</span></button><button class="gallery-item gallery-item-wide" type="button" data-gallery="assets/yava-11.jpg"><img src="assets/yava-11.jpg" alt="Вид из кабины YAVA XL COB" loading="lazy" /><span class="gallery-caption"><strong>Внутри маршрута</strong><small>кабина / обзор</small></span><span class="gallery-open" aria-hidden="true">↗</span></button></div>
+          <div class="colors-block"><div class="colors-copy"><div class="section-kicker">06 / COLOR STUDY</div><h3>Цвет — тоже часть<br /><em>характера лодки.</em></h3><p>Переключите оттенок корпуса и посмотрите, как меняется настроение одной и той же YAVA XL COB.</p></div><div class="color-stage"><img id="color-preview" src="assets/color-blue.png" alt="YAVA XL COB в синем цвете" /><span class="color-stage-label">YAVA XL COB / <strong data-color-name>Синий</strong></span></div><div class="color-picker" role="group" aria-label="Выбор цвета корпуса"><button class="color-dot" type="button" style="--dot:#262c2c" data-color="Графит" data-image="assets/color-gray.png" aria-label="Графит"></button><button class="color-dot" type="button" style="--dot:#0a6ad8" data-color="Синий" data-image="assets/color-blue.png" aria-label="Синий" aria-pressed="true"></button><button class="color-dot" type="button" style="--dot:#dd252b" data-color="Красный" data-image="assets/color-red.png" aria-label="Красный"></button><button class="color-dot" type="button" style="--dot:#ef8b1a" data-color="Оранжевый" data-image="assets/color-orange.png" aria-label="Оранжевый"></button><button class="color-dot" type="button" style="--dot:#e4c21d" data-color="Жёлтый" data-image="assets/color-yellow.png" aria-label="Жёлтый"></button><button class="color-dot" type="button" style="--dot:#1c7d52" data-color="Зелёный" data-image="assets/color-green.png" aria-label="Зелёный"></button><button class="color-dot" type="button" style="--dot:#050809" data-color="Чёрный" data-image="assets/color-black.png" aria-label="Чёрный"></button><button class="color-dot" type="button" style="--dot:#f0f2f0" data-color="Белый" data-image="assets/color-white.png" aria-label="Белый"></button></div></div>
+        </div></section>
 
-      <section class="section section-paper faq-section" id="faq">
-        <div class="container faq-grid">
-          <div class="faq-intro" data-reveal><div class="section-kicker">07 / FAQ</div><h2>Коротко<br /><em>о главном.</em></h2><p>Если вопроса нет в списке — задайте его в Telegram. В этом и есть смысл клуба.</p><a class="outline-link dark-link" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">Задать вопрос <span>↗</span></a></div>
-          <div class="faq-list" data-reveal>
-            <details open><summary><span>Что такое клуб владельцев YAVA XL COB?</span><b>+</b></summary><p>Независимое Telegram-сообщество владельцев и поклонников модели — для обмена опытом, идеями, фотографиями и полезными решениями.</p></details>
-            <details><summary><span>Это официальный сайт производителя?</span><b>+</b></summary><p>Нет. Это самостоятельный клуб владельцев. Права на бренды и официальные материалы принадлежат соответствующим правообладателям.</p></details>
-            <details><summary><span>Что обсуждают в сообществе?</span><b>+</b></summary><p>Эксплуатацию, моторы и винты, эхолоты, электрику, отопители, тенты, прицепы, маршруты и дооснащение.</p></details>
-            <details><summary><span>Подойдёт ли сайт тем, кто только выбирает лодку?</span><b>+</b></summary><p>Да. Здесь можно спокойно изучить характеристики YAVA XL COB и спросить владельцев о реальном опыте.</p></details>
-            <details><summary><span>Можно ли вступить, если лодка ещё не куплена?</span><b>+</b></summary><p>Конечно. Интерес к модели — достаточная причина присоединиться и задать свои вопросы.</p></details>
-            <details><summary><span>Есть ли реальные отзывы владельцев?</span><b>+</b></summary><p>Сообщество создано именно для живого опыта: с фотографиями, конкретными настройками и обсуждением ситуаций на воде.</p></details>
-            <details><summary><span>Где задать вопрос по комплектации и дооснащению?</span><b>+</b></summary><p>В Telegram-группе. Там можно описать задачу, приложить фото и получить несколько практичных мнений.</p></details>
-            <details><summary><span>Как вступить в Telegram?</span><b>+</b></summary><p>Нажмите любую кнопку «Вступить в Telegram» или откройте <a href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">t.me/yavaxlcob</a>.</p></details>
-          </div>
-        </div>
-      </section>
+        <section class="club-section" id="club" aria-labelledby="club-title"><div class="club-depth club-depth-one" aria-hidden="true"></div><div class="club-depth club-depth-two" aria-hidden="true"></div><div class="container club-inner"><p class="eyebrow">07 / Клуб владельцев</p><h2 id="club-title">На воде лучше,<br /><em>когда есть свои люди.</em></h2><p class="club-lead">В Telegram обсуждают то, что обычно выясняется уже на воде: моторы, винты, эхолоты, электрику, отопление, тенты, прицепы и маршруты.</p><div class="club-orbit" aria-hidden="true"><span style="--x:-42%;--y:-14%;--r:-7deg">Моторы</span><span style="--x:28%;--y:-20%;--r:5deg">Garmin</span><span style="--x:66%;--y:16%;--r:8deg">Маршруты</span><span style="--x:-52%;--y:24%;--r:-5deg">Доработки</span><span style="--x:40%;--y:54%;--r:-4deg">Рыбалка</span><span style="--x:-20%;--y:58%;--r:6deg">Электрика</span></div><a class="club-cta" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span><b>Присоединиться к YAVA XL COB</b><span aria-hidden="true">↗</span></a></div></section>
 
-      <section class="final-cta" id="join">
-        <div class="final-cta-image" aria-hidden="true"><img src="assets/yava-09.jpg" alt="" loading="lazy" /></div>
-        <div class="final-cta-overlay" aria-hidden="true"></div>
-        <div class="container final-cta-content" data-reveal><div class="section-kicker light-kicker">THE WATER IS BETTER TOGETHER</div><h2>Присоединяйтесь<br />к сообществу <em>YAVA XL COB</em></h2><p>Если вам интересна YAVA XL COB — заходите в Telegram. Там владельцы, реальные обсуждения, опыт эксплуатации и полезные советы.</p><a class="button button-primary" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span> Вступить в Telegram <span class="arrow">↗</span></a></div>
-      </section>
-    </main>
+        <section class="faq-section" id="faq" aria-labelledby="faq-title"><div class="container faq-grid"><div class="faq-intro"><p class="eyebrow eyebrow-dark">08 / FAQ</p><h2 id="faq-title">Коротко<br /><em>о главном.</em></h2><p>Если вопроса нет в списке — задайте его в Telegram. В этом и есть смысл клуба.</p><a class="inline-link inline-link-dark" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">Задать вопрос <span aria-hidden="true">↗</span></a></div><div class="faq-list"><details open><summary>Что такое клуб владельцев YAVA XL COB?<b>+</b></summary><p>Это независимое Telegram-сообщество владельцев и поклонников YAVA XL COB для обмена опытом, идеями и полезными решениями.</p></details><details><summary>Это официальный сайт производителя?<b>+</b></summary><p>Нет. Это независимый клуб владельцев. Бренды и официальные материалы принадлежат соответствующим правообладателям.</p></details><details><summary>Можно ли вступить, если лодка еще не куплена?<b>+</b></summary><p>Да. Сообщество открыто для тех, кто только изучает модель и хочет услышать реальный опыт владельцев.</p></details><details><summary>Как вступить в Telegram?<b>+</b></summary><p>Откройте <a href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">ссылку на клуб</a> и присоединитесь к группе.</p></details></div></div></section>
 
-    <footer class="site-footer">
-      <div class="container footer-top"><a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none"><path d="M5 28.5c8.2 3.9 18.8 4.4 30 1.3M8 22.8l8.1-8.1 5.6 5.6L32 10" stroke="currentColor" stroke-width="2.7" stroke-linecap="round" stroke-linejoin="round"/><path d="M7 32.5h26" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg></span><span class="brand-copy"><strong>YAVA</strong><span>XL COB / OWNER CLUB</span></span></a><div class="footer-links"><a href="#profile">Модель</a><a href="#specs">Характеристики</a><a href="#gallery">Галерея</a><a href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">Telegram ↗</a></div><span class="footer-year">© <span data-year>2026</span></span></div>
-      <div class="container footer-bottom"><p>Независимый информационный клуб владельцев YAVA XL COB. Сайт не является официальным ресурсом производителя, дилера или продавца. YAVA, VBOATS и другие упомянутые обозначения принадлежат соответствующим правообладателям. Технические характеристики приведены по официальным материалам и могут изменяться.</p><a href="https://vboats.ru/boats/volzhanka/yava-xl-cob/" target="_blank" rel="noreferrer">Источник характеристик: VBOATS ↗</a></div>
-    </footer>
+        <section class="final-cta" id="join" aria-labelledby="join-title"><div class="final-cta-image" aria-hidden="true"><img src="assets/yava-main.jpg" alt="" loading="lazy" /></div><div class="final-cta-overlay" aria-hidden="true"></div><div class="container final-cta-content"><div class="section-kicker light-kicker">THE WATER IS BETTER TOGETHER</div><h2 id="join-title">Ваша следующая<br /><em>история — на воде.</em></h2><p>Если вам интересна YAVA XL COB — заходите в Telegram. Там владельцы, реальные обсуждения, опыт эксплуатации и полезные советы.</p><a class="button button-primary" href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span> Вступить в Telegram <span aria-hidden="true">↗</span></a></div></section>
+      </main>
 
-    <div class="floating-telegram"><a href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer" aria-label="Вступить в Telegram"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span><span>В Telegram</span></a></div>
+      <footer class="site-footer"><div class="container footer-top"><a class="brand footer-brand" href="#top" aria-label="YAVA XL COB — в начало"><span class="brand-mark" aria-hidden="true">Y</span><span class="brand-copy"><strong>YAVA</strong><span>XL COB / OWNER CLUB</span></span></a><nav class="footer-nav" aria-label="Навигация в подвале"><a href="#specs">Параметры</a><a href="#gallery">Галерея</a><a href="#club">Клуб</a><a href="#faq">FAQ</a></nav><span class="footer-year">© <span data-year></span></span></div><div class="container footer-bottom"><p>Неофициальный клуб владельцев YAVA XL COB.<br />Информация о модели собрана из открытых источников.</p><a href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer">Telegram / yavaxlcob ↗</a></div></footer>
+    </div>
 
-    <div class="lightbox" role="dialog" aria-modal="true" aria-label="Просмотр фотографии" hidden data-lightbox><button class="lightbox-close" type="button" aria-label="Закрыть" data-lightbox-close>×</button><div class="lightbox-frame"><img src="" alt="" data-lightbox-image /></div></div>
+    <div class="lightbox" data-lightbox hidden role="dialog" aria-modal="true" aria-label="Просмотр фотографии"><button class="lightbox-close" type="button" data-lightbox-close aria-label="Закрыть">×</button><div class="lightbox-frame"><img data-lightbox-image src="" alt="" /></div></div>
+    <div class="floating-telegram"><a href="https://t.me/yavaxlcob" target="_blank" rel="noreferrer"><span class="telegram-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none"><path d="m20.8 4.2-3 14.1c-.2 1-1 1.2-1.8.7l-4.9-3.6-2.4 2.3c-.3.3-.5.5-1 .5l.4-5 9-8.1c.4-.4-.1-.6-.6-.2L5.4 11.8.6 10.3c-1-.3-1-1 .2-1.5L19.5 2c.9-.3 1.7.2 1.3 2.2Z" fill="currentColor"/></svg></span> В Telegram</a></div>
     <script src="script.js"></script>
   </body>
 </html>
