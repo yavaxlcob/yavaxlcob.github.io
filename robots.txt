@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://yavaxlcob.github.io/sitemap.xml
