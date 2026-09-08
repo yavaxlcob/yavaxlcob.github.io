@@ -8,7 +8,7 @@
   const nav = document.querySelector('[data-nav]');
   const progress = document.querySelector('[data-scroll-progress]');
   const hero = document.querySelector('.hero');
-  const heroImage = document.querySelector('.hero-image-wrap');
+  const heroImage = document.querySelector('.hero-photo');
 
   const updateScrollState = () => {
     const scrollTop = window.scrollY || 0;
