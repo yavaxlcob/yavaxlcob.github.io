@@ -34,6 +34,9 @@
   // reliable fallback for devices without the app and for every desktop click.
   const telegramLinks=$$('a[href="https://t.me/yavaxlcob"]');
   const isPhone=()=>/Android|iPhone|iPod/i.test(navigator.userAgent);
+  telegramLinks.forEach(link=>link.addEventListener('click',()=>{
+    if(typeof window.ym==='function')window.ym(112471789,'reachGoal','telegram_click');
+  }));
   telegramLinks.forEach(link=>link.addEventListener('click',event=>{
     if(!isPhone()||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
     event.preventDefault();
