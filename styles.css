@@ -831,7 +831,7 @@ html.motion-paused{scroll-snap-type:none}
 /* Final mobile polish: keep each line natural, centered and within the phone viewport. */
 @media(max-width:600px){
  .hero .eyebrow{font-size:clamp(10px,3.05vw,13px);letter-spacing:.035em;text-align:center;text-align-last:auto;word-spacing:normal}
- .hero h1{font-size:clamp(40px,11.1vw,59px)}
+ .hero h1{font-size:clamp(49px,14.65vw,60px)}
  .build-section h2{justify-content:center;text-align:center;text-align-last:auto;word-spacing:normal}
  .build-section h2 .build-title-primary{color:#f3f8ff}
  .build-section h2 .build-title-secondary{color:#93b9df}
@@ -846,7 +846,7 @@ html.motion-paused{scroll-snap-type:none}
  .closing-section .site-footer{padding:24px 0 18px}
  .closing-section .footer-top{display:flex;flex-direction:column;align-items:center;gap:0;padding-bottom:15px;text-align:center}
  .closing-section .footer-top .brand{margin:0 auto;justify-content:center}
- .closing-section .footer-top .brand img{width:clamp(168px,49vw,196px)}
+ .closing-section .footer-top .brand img{width:clamp(224px,64vw,252px)}
  .closing-section .footer-top nav{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;margin:18px 0 0;gap:11px 18px;font-size:14px}
  .closing-section .footer-video-link{display:inline}
  .closing-section .footer-propeller{display:none}
@@ -859,6 +859,6 @@ html.motion-paused{scroll-snap-type:none}
 }
 
 @media(max-width:360px){
- .hero h1{font-size:39px}
+ .hero h1{font-size:50px}
  .closing-section .footer-top nav{gap:9px 15px;font-size:13px}
 }
