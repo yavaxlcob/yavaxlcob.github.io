@@ -781,19 +781,22 @@ html.motion-paused{scroll-snap-type:none}
  .hero-specs small{font-size:11px}
 }
 
+/* Elements that are deliberately mobile-only remain invisible in the desktop footer. */
+.footer-video-link,.footer-propeller-mobile,.round-arrow-telegram{display:none}
+
 /* Mobile chapter pass: compact, full-width copy without changing desktop scenes. */
 @media(max-width:600px){
  /* 02 / Parameters */
  .build-section{padding-top:72px}
- .build-section h2{width:100%;margin:0;text-align:justify;text-align-last:justify;font-size:clamp(23px,6.9vw,30px);line-height:1.06;letter-spacing:-.05em;white-space:nowrap}
+ .build-section h2{width:100%;margin:0;text-align:center;font-size:clamp(23px,6.9vw,30px);line-height:1.06;letter-spacing:-.05em;white-space:nowrap}
  .build-section h2 .build-title-primary,.build-section h2 .build-title-secondary{display:block;width:100%}
  .build-section h2 .build-title-secondary{margin-top:4px}
  .build-lead{max-width:none;margin-top:13px;font-size:clamp(9px,2.65vw,11px);line-height:1.42;text-align:center}
 
  /* 03 / Video: the original 16:9 frame is fully visible edge to edge. */
- .video-section{display:block;min-height:0!important;height:auto!important;aspect-ratio:16 / 9;padding:0;overflow:hidden}
- .video-section>.video-embed{position:relative!important;inset:auto!important;width:100%!important;height:auto!important;aspect-ratio:16 / 9;overflow:hidden}
- .video-section iframe.video-main{inset:0;width:100%!important;height:100%!important;transform:none!important}
+ .video-section{position:relative;display:block;min-height:0!important;height:auto!important;aspect-ratio:16 / 9;padding:0;overflow:hidden;isolation:auto;contain:none}
+ .video-section>.video-embed{position:absolute!important;inset:0!important;width:100%!important;height:100%!important;min-height:0!important;aspect-ratio:auto;overflow:hidden}
+ .video-section iframe.video-main{position:absolute!important;top:0!important;left:0!important;width:100%!important;height:100%!important;max-width:none!important;transform:none!important;background:#061a2b}
  .video-section>.chapter-index{top:12px;left:16px;font-size:11px!important;letter-spacing:.08em!important}
 
  /* 04 / FAQ */
@@ -806,6 +809,8 @@ html.motion-paused{scroll-snap-type:none}
  /* 05 / Colour */
  .colors-section>.container{padding-top:28px}
  .colors-section .section-heading{margin-bottom:0}
+ .colors-section h2{color:#f3f8ff}
+ .colors-section h2 span{color:#93b9df}
 
  /* 06 / Club */
  .club-section{min-height:100svh;display:flex;align-items:center;padding:48px 0 18px}
@@ -821,4 +826,39 @@ html.motion-paused{scroll-snap-type:none}
  .closing-section .site-footer .footer-bottom{display:block;padding-top:17px}
  .closing-section .site-footer .footer-bottom p{width:100%;max-width:none;font-size:clamp(8.6px,2.6vw,11px);line-height:1.55;letter-spacing:-.035em;white-space:nowrap}
  .closing-section .site-footer .footer-bottom br{display:block}
+}
+
+/* Final mobile polish: keep each line natural, centered and within the phone viewport. */
+@media(max-width:600px){
+ .hero .eyebrow{font-size:clamp(10px,3.05vw,13px);letter-spacing:.035em;text-align:center;text-align-last:auto;word-spacing:normal}
+ .hero h1{font-size:clamp(40px,11.1vw,59px)}
+ .build-section h2{justify-content:center;text-align:center;text-align-last:auto;word-spacing:normal}
+ .build-section h2 .build-title-primary{color:#f3f8ff}
+ .build-section h2 .build-title-secondary{color:#93b9df}
+
+ /* The club action becomes a small Telegram control rather than a plain white arrow. */
+ .club-section .round-arrow{display:grid;place-items:center;background:linear-gradient(145deg,#143a60,#0a2038);color:#e8f5ff;border:1px solid rgba(182,219,250,.62);box-shadow:inset 0 1px 0 rgba(230,246,255,.24),0 8px 18px rgba(2,15,29,.28)}
+ .club-section .round-arrow-glyph{display:none}
+ .club-section .round-arrow-telegram{display:block;width:18px;height:18px;fill:currentColor;animation:telegram-plane-bob 3.4s ease-in-out infinite}
+ .club-section .club-cta:hover .round-arrow{transform:translateY(-2px) scale(1.04);background:linear-gradient(145deg,#1d5687,#0c2947)}
+
+ /* A centred, compact mobile footer: the propeller lives directly below its divider. */
+ .closing-section .site-footer{padding:24px 0 18px}
+ .closing-section .footer-top{display:flex;flex-direction:column;align-items:center;gap:0;padding-bottom:15px;text-align:center}
+ .closing-section .footer-top .brand{margin:0 auto;justify-content:center}
+ .closing-section .footer-top .brand img{width:clamp(168px,49vw,196px)}
+ .closing-section .footer-top nav{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;margin:18px 0 0;gap:11px 18px;font-size:14px}
+ .closing-section .footer-video-link{display:inline}
+ .closing-section .footer-propeller{display:none}
+ .closing-section .footer-propeller-mobile{display:grid;place-items:center;width:104px;height:104px;margin:14px auto 5px}
+ .closing-section .footer-propeller-mobile .propeller-blades{width:80%;height:80%;left:10%;top:10%}
+ .closing-section .footer-propeller-mobile .propeller-hub{width:30px;height:30px;font-size:17px}
+ .closing-section .footer-bottom{display:block;padding-top:11px;text-align:center}
+ .closing-section .site-footer .footer-bottom p{font-size:clamp(9px,2.8vw,11px);line-height:1.55;letter-spacing:-.025em;white-space:nowrap}
+ .closing-section .footer-meta{display:block;padding-top:8px;text-align:center;font-size:12px}
+}
+
+@media(max-width:360px){
+ .hero h1{font-size:39px}
+ .closing-section .footer-top nav{gap:9px 15px;font-size:13px}
 }
