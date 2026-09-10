@@ -36,6 +36,11 @@
   const isPhone=()=>/Android|iPhone|iPod/i.test(navigator.userAgent);
   telegramLinks.forEach(link=>link.addEventListener('click',()=>{
     if(typeof window.ym==='function')window.ym(112471789,'reachGoal','telegram_click');
+    if(typeof window.gtag==='function')window.gtag('event','telegram_click',{
+      link_url:'https://t.me/yavaxlcob',
+      link_domain:'t.me',
+      outbound:true
+    });
   }));
   telegramLinks.forEach(link=>link.addEventListener('click',event=>{
     if(!isPhone()||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
