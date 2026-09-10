@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 460">
+  <defs>
+    <filter id="soft-edge" x="-8%" y="-35%" width="116%" height="170%">
+      <feGaussianBlur stdDeviation="3.2"/>
+    </filter>
+  </defs>
+  <!-- A narrow, irregular contact band follows the real lower hull line. -->
+  <path d="M178 403 Q193 391 213 400 Q232 412 242 433 Q245 447 232 454 Q211 457 194 447 Q179 438 175 420 Q174 411 178 403 Z" fill="white" filter="url(#soft-edge)"/>
+  <!-- Stop the water treatment under the forward windshield; the bow stays clean. -->
+  <path d="M208 401 C265 395 300 405 355 404 S450 410 510 408 S586 417 648 420 S756 431 821 425 Q868 419 914 412 Q935 411 946 420 Q939 434 914 440 Q868 449 821 458 S709 463 648 456 S571 447 510 444 S416 440 355 442 S268 437 214 440 Q201 432 208 401 Z" fill="white" filter="url(#soft-edge)"/>
+  <path d="M212 419 C275 414 309 422 365 420 S454 426 511 423 S591 432 650 435 S758 444 821 438 Q868 432 914 425 Q933 423 940 428 Q929 439 914 440 Q868 447 821 453 S709 458 648 451 S571 442 510 439 S416 435 355 437 S268 432 213 436 Q205 430 212 419" fill="none" stroke="white" stroke-width="9" stroke-linecap="round" opacity=".55"/>
+  <path d="M215 424 C286 419 313 428 367 426 S454 432 511 429 S591 437 650 440 S758 449 821 443 Q868 437 914 431" fill="none" stroke="white" stroke-width="10" stroke-linecap="round" opacity=".72"/>
+</svg>

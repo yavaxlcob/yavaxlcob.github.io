@@ -1,0 +1,12 @@
+{
+  "name": "YAVA XL COB — клуб владельцев",
+  "short_name": "YAVA XL COB",
+  "icons": [
+    {"src":"assets/favicon-64.png","sizes":"64x64","type":"image/png"},
+    {"src":"assets/favicon-180.png","sizes":"180x180","type":"image/png"},
+    {"src":"assets/favicon-512.png","sizes":"512x512","type":"image/png"}
+  ],
+  "theme_color": "#081a30",
+  "background_color": "#081a30",
+  "display": "standalone"
+}

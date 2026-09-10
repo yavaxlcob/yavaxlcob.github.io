@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 460">
+<defs><filter id="soft" x="-10%" y="-50%" width="120%" height="200%"><feGaussianBlur stdDeviation="2.8"/></filter><linearGradient id="stern-only" gradientUnits="userSpaceOnUse" x1="745" y1="0" x2="860" y2="0"><stop stop-color="white"/><stop offset="1" stop-color="white" stop-opacity="0"/></linearGradient></defs>
+<!-- A soft contact mask reveals actual water pixels along the hull, not a drawn wave. -->
+<path d="M207 428 C269 424 294 431 355 429 S449 434 510 431 S585 438 648 441 S756 450 821 444 Q845 440 866 439" fill="none" stroke="url(#stern-only)" stroke-width="15" filter="url(#soft)"/>
+</svg>

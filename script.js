@@ -30,6 +30,48 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('is-open')) closeMenu(true);});
   document.addEventListener('click',e=>{if(!e.target.closest('.site-header'))closeMenu();});
 
+  // Native disclosures remain usable without JavaScript; with it, keep long FAQ reading focused.
+  const faqDetails=$$('.faq-list details');
+  faqDetails.forEach(detail=>{
+    const summary=$('summary',detail);
+    summary.setAttribute('aria-expanded',String(detail.open));
+    detail.addEventListener('toggle',()=>{
+      summary.setAttribute('aria-expanded',String(detail.open));
+      if(detail.open)faqDetails.forEach(other=>{if(other!==detail)other.open=false;});
+    });
+  });
+
+  const boatTilt=$('[data-boat-tilt]');
+  if(boatTilt){
+    let dragStart=null, boatYaw=0, boatPitch=0;
+    const updateBoat=()=>{
+      boatTilt.style.setProperty('--boat-yaw',boatYaw.toFixed(2)+'deg');
+      boatTilt.style.setProperty('--boat-pitch',boatPitch.toFixed(2)+'deg');
+      boatTilt.style.setProperty('--boat-x',(boatYaw*.7).toFixed(1)+'px');
+      boatTilt.style.setProperty('--boat-y',(boatPitch*.32).toFixed(1)+'px');
+    };
+    const settleBoat=()=>{boatYaw*=.45;boatPitch*=.45;updateBoat();};
+    boatTilt.addEventListener('pointerdown',e=>{
+      if(reduced)return;
+      dragStart={x:e.clientX,y:e.clientY,yaw:boatYaw,pitch:boatPitch};
+      boatTilt.classList.add('is-dragging');boatTilt.setPointerCapture?.(e.pointerId);
+    });
+    boatTilt.addEventListener('pointermove',e=>{
+      if(!dragStart)return;
+      const dx=e.clientX-dragStart.x,dy=e.clientY-dragStart.y;
+      if(Math.abs(dx)>4)e.preventDefault();
+      boatYaw=Math.max(-12,Math.min(12,dragStart.yaw+dx*.085));
+      boatPitch=Math.max(-4,Math.min(4,dragStart.pitch-dy*.035));updateBoat();
+    });
+    ['pointerup','pointercancel','lostpointercapture'].forEach(name=>boatTilt.addEventListener(name,()=>{
+      if(!dragStart)return;dragStart=null;boatTilt.classList.remove('is-dragging');settleBoat();
+    }));
+    boatTilt.addEventListener('keydown',e=>{
+      const move={ArrowLeft:[-4,0],ArrowRight:[4,0],ArrowUp:[0,1.5],ArrowDown:[0,-1.5]}[e.key];
+      if(!move)return;e.preventDefault();boatYaw=Math.max(-12,Math.min(12,boatYaw+move[0]));boatPitch=Math.max(-4,Math.min(4,boatPitch+move[1]));updateBoat();
+    });
+  }
+
   const tabs=$$('[data-tab]');
   function selectTab(tab,focus=false) {
     tabs.forEach(t=>{
@@ -54,78 +96,134 @@
     });
   });
 
-  // Only these official transparent hull layers change. The photographic base is immutable.
+  // Each colour is a precomposed transparent boat: no browser-specific CSS mask can hide it.
   const choices=$$('[data-color]');
-  const hulls=$$('[data-hull]');
-  let colorRequest = 0;
-  choices.forEach(button=>button.addEventListener('click',async()=>{
-    const request = ++colorRequest;
+  const colorBoat=$('.color-boat-image');
+  choices.forEach(button=>button.addEventListener('click',()=>{
     const selected=button.dataset.color;
-    const layer=hulls.find(img=>img.dataset.hull===selected);
-    try{await layer.decode();}catch{return;}
-    if(request!==colorRequest)return;
+    if(!colorBoat)return;
     choices.forEach(c=>c.setAttribute('aria-pressed',String(c===button)));
-    hulls.forEach(img=>img.classList.toggle('is-active',img===layer));
+    colorBoat.src='assets/style-boat-'+selected+'.png';
+    colorBoat.alt='YAVA XL COB, '+button.dataset.name.toLowerCase()+' нижний борт';
     $('[data-color-name]').textContent=button.dataset.name;
-    $('.color-boat').setAttribute('aria-label','YAVA XL COB, цвет нижнего борта: '+button.dataset.name);
   }));
 
-  // Native dialog supplies focus containment and Escape. Return focus to the clicked photo.
-  const gallery=$$('[data-gallery]');
-  const dialog=$('.lightbox');
-  const largePhoto=$('img',dialog);
-  let photoIndex=0, photoOpener=null;
-  function showPhoto(index) {
-    photoIndex=(index+gallery.length)%gallery.length;
-    const item=gallery[photoIndex];
-    const wrap=$('.lightbox-image-wrap');
-    wrap.classList.toggle('is-light',item.classList.contains('light'));
-    wrap.classList.toggle('is-interior',item.classList.contains('interior'));
-    largePhoto.src=item.dataset.gallery;
-    largePhoto.alt=$('img',item).alt;
-    $('[data-photo-caption]').textContent=(photoIndex+1)+' / '+gallery.length+' — '+item.dataset.caption;
-  }
-  gallery.forEach((item,index)=>item.addEventListener('click',()=>{
-    photoOpener=item;showPhoto(index);dialog.showModal();document.body.classList.add('modal-open');
-  }));
-  $('.lightbox-close').addEventListener('click',()=>dialog.close());
-  $('[data-next]').addEventListener('click',()=>showPhoto(photoIndex+1));
-  $('[data-prev]').addEventListener('click',()=>showPhoto(photoIndex-1));
-  dialog.addEventListener('click',e=>{if(e.target===dialog)dialog.close();});
-  dialog.addEventListener('keydown',e=>{
-    if(e.key==='ArrowRight'){e.preventDefault();showPhoto(photoIndex+1);}
-    if(e.key==='ArrowLeft'){e.preventDefault();showPhoto(photoIndex-1);}
-  });
-  dialog.addEventListener('close',()=>{document.body.classList.remove('modal-open');photoOpener?.focus({preventScroll:true});});
-  let swipeX=null;
-  dialog.addEventListener('touchstart',e=>{swipeX=e.changedTouches[0].clientX;},{passive:true});
-  dialog.addEventListener('touchend',e=>{
-    if(swipeX!==null){const dx=e.changedTouches[0].clientX-swipeX;if(Math.abs(dx)>65)showPhoto(photoIndex+(dx<0?1:-1));}
-    swipeX=null;
-  },{passive:true});
   $('[data-year]').textContent=new Date().getFullYear();
 
   const steps=$$('[data-step]');
   const frames=$$('[data-scene]');
   const tracks=$$('.scene-track i');
-  let activeStep=0;
+  let activeStep=-1;
+  const voyage=$('.voyage');
+  const storyWindow=$('.voyage-window');
+  const storySteps=$('.voyage-steps');
+  root.classList.add('story-ready');
+  const pinnedStory=()=>innerWidth>960&&innerHeight>=620&&!reduced;
+  function goStory(delta) {
+    if(!pinnedStory())return;
+    const next=Math.max(0,Math.min(steps.length-1,activeStep+delta));
+    const travel=voyage.offsetHeight-innerHeight;
+    scrollTo({top:scrollY+voyage.getBoundingClientRect().top+next*travel/(steps.length-1),behavior:'smooth'});
+  }
+  $('[data-story-prev]').addEventListener('click',()=>goStory(-1));
+  $('[data-story-next]').addEventListener('click',()=>goStory(1));
   function setStory(index) {
     if(index===activeStep)return;
     activeStep=index;
     steps.forEach((s,i)=>s.classList.toggle('is-active',i===index));
     frames.forEach((s,i)=>{s.classList.toggle('is-active',i===index);s.setAttribute('aria-hidden',String(i!==index));});
     tracks.forEach((s,i)=>s.classList.toggle('is-active',i===index));
-    $('[data-scene-number]').textContent='0'+(index+1)+' / 04';
+    $('[data-scene-number]').textContent=String(index+1).padStart(2,'0')+' / '+String(steps.length).padStart(2,'0');
     $('[data-scene-label]').textContent=steps[index].dataset.label;
   }
   frames.forEach((s,i)=>s.setAttribute('aria-hidden',String(i!==0)));
+
+  // Desktop wheel cadence: one deliberate wheel gesture advances exactly one
+  // full-screen chapter (or one pinned story scene), then settles before the
+  // next gesture is accepted. Touch, keyboard and reduced-motion stay native.
+  const wheelSections=$$('main>section');
+  let wheelGestureActive=false;
+  let wheelSettling=false;
+  let wheelGestureTimer=0;
+  let wheelSettleTimer=0;
+  const wheelCadenceEnabled=()=>pinnedStory();
+  function wheelStops(){
+    const stops=[];
+    wheelSections.forEach(section=>{
+      const top=scrollY+section.getBoundingClientRect().top;
+      if(section===voyage&&pinnedStory()){
+        const travel=Math.max(0,section.offsetHeight-innerHeight);
+        steps.forEach((_,index)=>stops.push(top+travel*index/Math.max(1,steps.length-1)));
+      }else{
+        stops.push(top);
+      }
+    });
+    return stops.sort((a,b)=>a-b).filter((stop,index,list)=>index===0||Math.abs(stop-list[index-1])>8);
+  }
+  function expandedFaqNeedsNativeScroll(direction){
+    if(!faqDetails.some(detail=>detail.open))return false;
+    const faq=$('#faq');
+    if(!faq)return false;
+    const rect=faq.getBoundingClientRect();
+    if(rect.bottom<=0||rect.top>=innerHeight)return false;
+    return direction>0?rect.bottom>innerHeight+3:rect.top<-3;
+  }
+  function updateWheelCadence(){
+    root.classList.toggle('wheel-cadence',wheelCadenceEnabled());
+  }
+  function handleWheelCadence(event){
+    if(!wheelCadenceEnabled()||event.ctrlKey||Math.abs(event.deltaX)>Math.abs(event.deltaY))return;
+    const direction=Math.sign(event.deltaY);
+    if(!direction||expandedFaqNeedsNativeScroll(direction))return;
+    event.preventDefault();
+
+    clearTimeout(wheelGestureTimer);
+    wheelGestureTimer=setTimeout(()=>{wheelGestureActive=false;},180);
+    if(wheelGestureActive||wheelSettling)return;
+    wheelGestureActive=true;
+
+    const y=scrollY;
+    const tolerance=24;
+    const stops=wheelStops();
+    const target=direction>0
+      ?stops.find(stop=>stop>y+tolerance)
+      :[...stops].reverse().find(stop=>stop<y-tolerance);
+    if(target===undefined)return;
+
+    wheelSettling=true;
+    scrollTo({top:Math.round(target),behavior:'smooth'});
+    clearTimeout(wheelSettleTimer);
+    wheelSettleTimer=setTimeout(()=>{wheelSettling=false;},680);
+  }
+  addEventListener('wheel',handleWheelCadence,{passive:false});
+  updateWheelCadence();
+
+  const backToTop=$('.back-to-top');
   function updateScroll() {
     const height=document.documentElement.scrollHeight-innerHeight;
     $('.scroll-progress').style.transform='scaleX('+(height>0?scrollY/height:0)+')';
-    const target=innerWidth<=600?Math.max(350,innerHeight*.64):innerHeight*.5;
-    let nearest=0,distance=Infinity;
-    steps.forEach((step,i)=>{const r=step.getBoundingClientRect();const d=Math.abs(r.top+Math.min(r.height*.45,180)-target);if(d<distance){distance=d;nearest=i;}});
-    setStory(nearest);
+    if(backToTop){
+      const visible=$('.hero').getBoundingClientRect().bottom<=0;
+      backToTop.classList.toggle('is-visible',visible);
+      backToTop.setAttribute('aria-hidden',String(!visible));
+      backToTop.tabIndex=visible?0:-1;
+    }
+    if(pinnedStory()){
+      const travel=Math.max(1,voyage.offsetHeight-innerHeight);
+      const progress=Math.max(0,Math.min(1,-voyage.getBoundingClientRect().top/travel));
+      const index=Math.min(steps.length-1,Math.floor(progress*(steps.length-1)+.25));
+      setStory(index);
+      storySteps.style.transform='translateY('+(-index*storyWindow.clientHeight)+'px)';
+      steps.forEach((step,i)=>{step.inert=i!==index;step.setAttribute('aria-hidden',String(i!==index));});
+      $('[data-story-prev]').disabled=index===0;
+      $('[data-story-next]').disabled=index===steps.length-1;
+    }else{
+      storySteps.style.transform='';
+      steps.forEach(step=>{step.inert=false;step.removeAttribute('aria-hidden');});
+      let nearest=0,distance=Infinity;
+      steps.forEach((step,i)=>{const d=Math.abs(step.getBoundingClientRect().top-innerHeight*.25);if(d<distance){distance=d;nearest=i;}});
+      setStory(nearest);
+    }
     if(!reduced&&innerWidth>600){
       const hero=$('.hero');
       if(scrollY<hero.offsetHeight) $('.hero-photo').style.transform='translateY('+Math.min(scrollY*.13,100)+'px)';
@@ -135,7 +233,7 @@
 
   // Bounded, visibility-aware canvas system: white caustics on navy, blue shadows on ice.
   const surfaces=$$('[data-water]').map((canvas,index)=>({
-    canvas,ctx:canvas.getContext('2d'),dark:canvas.parentElement.classList.contains('dark'),
+    canvas,photo:canvas.dataset.water==='photo',ctx:canvas.getContext('2d'),dark:canvas.parentElement.classList.contains('dark'),
     visible:false,w:0,h:0,scale:1,seed:index*2.43,ripples:[]
   }));
   const resize=new ResizeObserver(entries=>{
@@ -143,7 +241,7 @@
       const s=surfaces.find(x=>x.canvas.parentElement===entry.target);
       if(s){
         s.w=entry.contentRect.width;s.h=entry.contentRect.height;
-        s.scale=Math.min(1,1100/Math.max(1,s.w),2100/Math.max(1,s.h));
+        s.scale=Math.min(1,(s.photo?1600:1100)/Math.max(1,s.w),2100/Math.max(1,s.h));
         s.canvas.width=Math.ceil(s.w*s.scale);s.canvas.height=Math.ceil(s.h*s.scale);
         s.ctx?.setTransform(s.scale,0,0,s.scale,0,0);
       }
@@ -155,9 +253,133 @@
     if(reduced)drawAll(0);
   },{rootMargin:'100px'});
   surfaces.forEach(s=>{resize.observe(s.canvas.parentElement);visibility.observe(s.canvas.parentElement);});
+  const reservoir = new Image();
+  reservoir.src='assets/reservoir-water.webp';
+  reservoir.addEventListener('load',()=>{if(reduced)drawAll(0);else start();});
+  const hullWaterCanvas=$('[data-hull-water]');
+  const hullWater=hullWaterCanvas?{canvas:hullWaterCanvas,ctx:hullWaterCanvas.getContext('2d'),w:0,h:0,scale:1}:null;
+  if(hullWater){
+    const sizeHullWater=()=>{
+      const r=hullWater.canvas.getBoundingClientRect();
+      hullWater.w=r.width;hullWater.h=r.height;
+      hullWater.scale=Math.min(1.25,1600/Math.max(1,r.width),1100/Math.max(1,r.height));
+      hullWater.canvas.width=Math.ceil(r.width*hullWater.scale);
+      hullWater.canvas.height=Math.ceil(r.height*hullWater.scale);
+      hullWater.ctx.setTransform(hullWater.scale,0,0,hullWater.scale,0,0);
+    };
+    new ResizeObserver(sizeHullWater).observe(hullWater.canvas);
+    sizeHullWater();
+  }
+  function renderReservoir(s,time) {
+    const c=s.ctx,w=s.w,h=s.h;
+    if(!reservoir.complete||!reservoir.naturalWidth)return;
+    const activeWater=s.canvas.parentElement.classList.contains('colors-section');
+    const phase=time*(activeWater ? .00112 : .0008);
+    // Crop away the sky. Overlapping water strips gently refract in a shared swell.
+    const sourceY=reservoir.naturalHeight*.23;
+    const sourceH=reservoir.naturalHeight-sourceY;
+    const scale=Math.max((w+40)/reservoir.naturalWidth,(h+40)/sourceH);
+    const sw=(w+40)/scale,sh=(h+40)/scale;
+    const sx=(reservoir.naturalWidth-sw)/2,sy=sourceY+(sourceH-sh)/2;
+    for(let y=-20;y<h+20;y+=activeWater?2:3){
+      const depth=(y+20)/(h+40);
+      const dx=Math.sin(phase-depth*9)*(activeWater?7.5:5)+Math.sin(phase*.67+depth*18)*(activeWater?2.8:1.8);
+      const dy=Math.sin(phase-depth*7)*(activeWater?2.35:1.4);
+      c.drawImage(reservoir,sx,sy+(y+20)/scale,sw,5/scale,-20+dx,y+dy,w+40,5);
+    }
+    // A broad soft fade, with a slightly irregular edge rather than a hard horizon.
+    c.globalCompositeOperation='destination-in';
+    const fade=c.createLinearGradient(0,0,0,h);
+    fade.addColorStop(0,'transparent');fade.addColorStop(.07,'#fff');
+    fade.addColorStop(.91,'#fff');fade.addColorStop(1,'transparent');
+    c.fillStyle=fade;c.fillRect(0,0,w,h);
+    c.globalCompositeOperation='source-over';
+    const boat=$('.color-boat,.join-boat',s.canvas.parentElement);
+    if(boat){
+      boat.style.transform='translateY('+(Math.sin(phase)*3).toFixed(2)+'px) rotate('+(Math.sin(phase)*.42).toFixed(3)+'deg)';
+    }
+  }
+  function renderHullWater(time){
+    if(!hullWater||!hullWater.w||!hullWater.h||!reservoir.complete||!reservoir.naturalWidth)return;
+    const c=hullWater.ctx,w=hullWater.w,h=hullWater.h;
+    c.clearRect(0,0,w,h);
+    const boat=$('.color-boat-image');
+    const section=$('.colors-section');
+    if(!boat||!section)return;
+    const canvasRect=hullWater.canvas.getBoundingClientRect();
+    const boatRect=boat.getBoundingClientRect();
+    const sectionRect=section.getBoundingClientRect();
+    if(sectionRect.bottom<0||sectionRect.top>innerHeight)return;
+
+    const left=boatRect.left-canvasRect.left;
+    const top=boatRect.top-canvasRect.top;
+    const bw=boatRect.width,bh=boatRect.height;
+    const stern=left+bw*.156;
+    const front=left+bw*.672;
+    const span=front-stern;
+    const phase=time*.00155;
+    const startY=top+bh*.892;
+    const middleY=top+bh*.938;
+    const endY=top+bh*.946;
+
+    c.save();
+    const points=[];
+    for(let i=0;i<=52;i++){
+      const u=i/52;
+      const x=stern+span*u;
+      const base=u<.72
+        ?startY+(middleY-startY)*Math.sin(u/.72*Math.PI/2)
+        :middleY+(endY-middleY)*((u-.72)/.28);
+      const taper=Math.pow(Math.sin(Math.PI*u),1.55);
+      const wave=(Math.sin(phase+u*10.5)*4.1+Math.sin(phase*.63+u*23)*1.8)*taper;
+      points.push({x,y:base+wave,u});
+    }
+    c.beginPath();
+    points.forEach((point,i)=>{if(i===0)c.moveTo(point.x,point.y);else c.lineTo(point.x,point.y);});
+    for(let i=points.length-1;i>=0;i--){
+      const point=points[i];
+      const depth=Math.pow(Math.sin(Math.PI*point.u),1.35)*(18+Math.sin(phase*.8+point.u*16)*3);
+      c.lineTo(point.x,point.y+depth);
+    }
+    c.closePath();
+    c.clip();
+
+    const sectionW=sectionRect.width,sectionH=sectionRect.height;
+    const sourceY=reservoir.naturalHeight*.23;
+    const sourceH=reservoir.naturalHeight-sourceY;
+    const scale=Math.max((sectionW+40)/reservoir.naturalWidth,(sectionH+40)/sourceH);
+    const sw=(sectionW+40)/scale,sh=(sectionH+40)/scale;
+    const sx=(reservoir.naturalWidth-sw)/2,sy=sourceY+(sourceH-sh)/2;
+    const canvasOffsetX=canvasRect.left-sectionRect.left;
+    const canvasOffsetY=canvasRect.top-sectionRect.top;
+    c.filter='brightness(.82) saturate(.94) contrast(1.04)';
+    for(let y=Math.max(0,startY-10);y<Math.min(h,middleY+28);y+=2){
+      const globalY=canvasOffsetY+y;
+      const depth=(globalY+20)/(sectionH+40);
+      const dx=Math.sin(time*.00112-depth*9)*7.5+Math.sin(time*.00075+depth*18)*2.8;
+      const dy=Math.sin(time*.00112-depth*7)*2.35;
+      c.drawImage(reservoir,sx,sy+(globalY+20)/scale,sw,4/scale,-20+dx-canvasOffsetX,y+dy,sectionW+40,4);
+    }
+    c.filter='blur(.35px)';
+    c.globalCompositeOperation='screen';
+    c.lineCap='round';
+    [[8,14],[23,31]].forEach((range,index)=>{
+      c.beginPath();
+      for(let i=range[0];i<=range[1];i++){
+        const point=points[i];
+        const lift=Math.sin(phase*1.15+point.u*18+index)*.8;
+        if(i===range[0])c.moveTo(point.x,point.y+1.5+lift);else c.lineTo(point.x,point.y+1.5+lift);
+      }
+      c.strokeStyle='rgba(194,225,246,'+(.2+index*.035)+')';
+      c.lineWidth=1.15+index*.25;
+      c.stroke();
+    });
+    c.restore();
+  }
   function renderWater(s,time) {
     const c=s.ctx;if(!c||!s.w||!s.h)return;
     c.clearRect(0,0,s.w,s.h);
+    if(s.photo){renderReservoir(s,time);return;}
     const t=time*.00016+s.seed;
     const rgb=s.dark?'155,202,253':'39,100,168';
     // Long refracted contours, deliberately visible on both background families.
@@ -189,7 +411,7 @@
       }
     }
   }
-  function drawAll(t){surfaces.filter(s=>s.visible).forEach(s=>renderWater(s,t));}
+  function drawAll(t){surfaces.filter(s=>s.visible).forEach(s=>renderWater(s,t));renderHullWater(t);}
   const heroWater=surfaces[0];let lastRipple=0;
   $('.hero').addEventListener('pointermove',e=>{
     if(reduced||e.pointerType==='touch')return;
@@ -205,16 +427,37 @@
   const connections=$('.club-connections');
   const topicNodes=$$('.club-topics li');
   const paths=topicNodes.map(()=>{
-    const path=document.createElementNS('http://www.w3.org/2000/svg','path');
-    connections.appendChild(path);return path;
+    const pair=['stream-glow','stream-core'].map(name=>{
+      const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('class',name);connections.appendChild(path);return path;
+    });
+    return pair;
   });
-  function connectTopics() {
+  function connectTopics(time=0) {
     if(!scene)return;
     const r=scene.getBoundingClientRect(),cx=r.width*.5,cy=r.height*.5;
     connections.setAttribute('viewBox','0 0 '+r.width+' '+r.height);
     topicNodes.forEach((node,i)=>{
-      const n=node.getBoundingClientRect(),x=n.left-r.left+n.width/2,y=n.top-r.top+n.height/2;
-      paths[i].setAttribute('d','M '+cx+' '+cy+' Q '+((cx+x)/2+(i%2?24:-24))+' '+((cy+y)/2)+' '+x+' '+y);
+      const n=node.getBoundingClientRect();
+      // Meet the near lower corner of each plate, except Routes: its upper-left
+      // corner keeps the last stream clear of the label and the CTA below.
+      const routesCorner=i===8;
+      const x=routesCorner?n.left-r.left+1:n.left-r.left+(n.left-r.left+n.width/2<cx?n.width-1:1);
+      const y=routesCorner?n.top-r.top+1:n.bottom-r.top-1;
+      const dx=x-cx,dy=y-cy,length=Math.max(1,Math.hypot(dx,dy));
+      const amplitude=Math.min(23,length*.1),phase=time*.00065+i*1.7;
+      const points=Array.from({length:25},(_,j)=>{
+        const s=j/24;
+        const bend=Math.sin(s*Math.PI)*amplitude*(Math.sin(s*Math.PI*3-phase)+.3*Math.sin(s*Math.PI*5+phase*.7));
+        return [cx+dx*s-dy/length*bend,cy+dy*s+dx/length*bend];
+      });
+      let d='M '+cx+' '+cy;
+      for(let j=1;j<points.length-1;j++){
+        const p=points[j],next=points[j+1];
+        d+=' Q '+p[0].toFixed(2)+' '+p[1].toFixed(2)+' '+((p[0]+next[0])/2).toFixed(2)+' '+((p[1]+next[1])/2).toFixed(2);
+      }
+      d+=' T '+x.toFixed(2)+' '+y.toFixed(2);
+      paths[i].forEach(path=>path.setAttribute('d',d));
     });
   }
   scene.addEventListener('pointermove',e=>{
@@ -231,7 +474,7 @@
     if(scrollDirty)updateScroll();
     if(!reduced&&time-lastFrame>33){
       drawAll(time);lastFrame=time;
-      if(time-lastConnections>100&&surfaces.find(s=>s.canvas.parentElement===scene.closest('section'))?.visible){connectTopics();lastConnections=time;}
+      if(time-lastConnections>33&&surfaces.find(s=>s.canvas.parentElement===scene.closest('section'))?.visible){connectTopics(time);lastConnections=time;}
     }
     if(!reduced)animationId=requestAnimationFrame(tick);
   }
@@ -240,16 +483,18 @@
     reduced=media.matches||userPaused;
     root.classList.toggle('motion-paused',reduced);
     root.dataset.motion=reduced?'reduced':'full';
-    motionButton.setAttribute('aria-pressed',String(reduced));
-    motionButton.textContent=media.matches?'Анимация отключена системой':userPaused?'Включить анимацию':'Приостановить анимацию';
-    motionButton.disabled=media.matches;
+    if(motionButton){
+      motionButton.setAttribute('aria-pressed',String(reduced));
+      motionButton.textContent=media.matches?'Анимация отключена системой':userPaused?'Включить анимацию':'Приостановить анимацию';
+      motionButton.disabled=media.matches;
+    }
     if(reduced){cancelAnimationFrame(animationId);animationId=0;surfaces.forEach(s=>{s.ripples=[];});drawAll(0);connectTopics();}
-    scrollDirty=true;start();
+    scrollDirty=true;updateWheelCadence();start();
   }
-  motionButton.addEventListener('click',()=>{userPaused=!userPaused;setMotion();});
+  if(motionButton)motionButton.addEventListener('click',()=>{userPaused=!userPaused;setMotion();});
   media.addEventListener('change',setMotion);
   addEventListener('scroll',()=>{scrollDirty=true;start();},{passive:true});
-  addEventListener('resize',()=>{scrollDirty=true;if(innerWidth>960)closeMenu();start();},{passive:true});
+  addEventListener('resize',()=>{scrollDirty=true;updateWheelCadence();if(innerWidth>960)closeMenu();start();},{passive:true});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(animationId);animationId=0;}else{scrollDirty=true;start();}});
   setMotion();
 })();
