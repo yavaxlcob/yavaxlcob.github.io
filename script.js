@@ -30,38 +30,16 @@
   document.addEventListener('keydown',e=>{if(e.key==='Escape'&&nav.classList.contains('is-open')) closeMenu(true);});
   document.addEventListener('click',e=>{if(!e.target.closest('.site-header'))closeMenu();});
 
-  // On phones, lead with Telegram itself. The normal HTTPS href remains the
-  // reliable fallback for devices without the app and for every desktop click.
-  const telegramLinks=$$('a[href="https://t.me/yavaxlcob"]');
-  const isPhone=()=>/Android|iPhone|iPod/i.test(navigator.userAgent);
+  // One shared listener records every club CTA without affecting navigation.
+  const telegramLinks=$$('a[href="https://t.me/+TlN5gjmo2nlhN2Vi"]');
   telegramLinks.forEach(link=>link.addEventListener('click',()=>{
     if(typeof window.ym==='function')window.ym(112471789,'reachGoal','telegram_click');
     if(typeof window.gtag==='function')window.gtag('event','telegram_click',{
-      link_url:'https://t.me/yavaxlcob',
+      link_url:'https://t.me/+TlN5gjmo2nlhN2Vi',
       link_domain:'t.me',
       outbound:true
     });
   }));
-  telegramLinks.forEach(link=>link.addEventListener('click',event=>{
-    if(!isPhone()||event.defaultPrevented||event.button!==0||event.metaKey||event.ctrlKey||event.shiftKey||event.altKey)return;
-    event.preventDefault();
-    const fallback=link.href;
-    const cancelFallback=()=>clearTimeout(fallbackTimer);
-    let fallbackTimer;
-    addEventListener('pagehide',cancelFallback,{once:true});
-    document.addEventListener('visibilitychange',()=>{
-      if(document.visibilityState==='hidden')cancelFallback();
-    },{once:true});
-    if(/Android/i.test(navigator.userAgent)){
-      location.href='intent://resolve?domain=yavaxlcob#Intent;scheme=tg;package=org.telegram.messenger;S.browser_fallback_url='+encodeURIComponent(fallback)+';end';
-      return;
-    }
-    location.href='tg://resolve?domain=yavaxlcob';
-    fallbackTimer=setTimeout(()=>{
-      if(document.visibilityState==='visible')location.href=fallback;
-    },900);
-  }));
-
   // Native disclosures remain usable without JavaScript; with it, keep long FAQ reading focused.
   const faqDetails=$$('.faq-list details');
   faqDetails.forEach(detail=>{
